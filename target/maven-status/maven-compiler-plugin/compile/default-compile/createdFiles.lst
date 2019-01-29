@@ -1,1 +1,7 @@
-pl/slupski/shopping/bean/HomeView.class
+pl/slupski/shopping/service/interfaces/IOrganizationService.class
+pl/slupski/shopping/view/HomeView.class
+pl/slupski/shopping/service/pojo/Product.class
+pl/slupski/shopping/service/implementation/OrganizationService.class
+pl/slupski/shopping/service/enums/UnitTypeEnum.class
+pl/slupski/shopping/service/pojo/Client.class
+pl/slupski/shopping/service/pojo/Order.class

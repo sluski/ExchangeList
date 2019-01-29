@@ -1,1 +1,7 @@
-/home/sluski/NetBeansProjects/Shopping/src/main/java/pl/slupski/shopping/bean/HomeView.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/interfaces/IOrganizationService.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/pojo/Order.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/enums/UnitTypeEnum.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/pojo/Client.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/view/HomeView.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/implementation/OrganizationService.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/pojo/Product.java
