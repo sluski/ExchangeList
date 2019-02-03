@@ -1,7 +1,6 @@
 package pl.slupski.shopping.service.pojo;
 
 import lombok.Data;
-import pl.slupski.shopping.service.enums.UnitTypeEnum;
 
 /**
  *
@@ -11,15 +10,13 @@ import pl.slupski.shopping.service.enums.UnitTypeEnum;
 public class Product {
 
     private String name;
-    private UnitTypeEnum unit;
 
     public Product() {
         
     }
 
-    public Product(String name, UnitTypeEnum unit) {
+    public Product(String name) {
         this.name = name;
-        this.unit = unit;
     }
 
 }

@@ -16,4 +16,10 @@ public interface IOrganizationService {
     List<Client> getAllClients();
     
     List<Order> getAllOrders();
+    
+    void insertProduct(Product product);
+    
+    void insertClient(Client client);
+    
+    void insertOrder(Order order);
 }

@@ -20,16 +20,31 @@ public class HomeView {
     private List<Product> products;
     private List<Client> clients;
     private List<Order> orders;
-    private Order newOrder;
+
     private final IOrganizationService organizationService;
+
+    private Client newClient;
+    private Order newOrder;
+    private Product newProduct;
 
     public HomeView() {
         this.organizationService = new OrganizationService();
+        newProduct = new Product();
         takeData();
     }
 
     public void onNewOrderAdd() {
         orders.add(newOrder);
+    }
+
+    public void onNewProductAdd() {
+        products.add(newProduct);
+        newProduct = new Product();
+    }
+    
+    public void onNewClientAdd() {
+        clients.add(newClient);
+        newClient = new Client();
     }
 
     private void takeData() {
@@ -52,6 +67,14 @@ public class HomeView {
 
     public Order getNewOrder() {
         return newOrder;
+    }
+
+    public Product getNewProduct() {
+        return newProduct;
+    }
+
+    public Client getNewClient() {
+        return newClient;
     }
 
 }

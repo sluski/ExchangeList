@@ -1,8 +1,17 @@
 package pl.slupski.shopping.service.implementation;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import org.json.simple.JSONObject;
 import pl.slupski.shopping.service.enums.UnitTypeEnum;
 import pl.slupski.shopping.service.interfaces.IOrganizationService;
 import pl.slupski.shopping.service.pojo.Client;
@@ -15,13 +24,16 @@ import pl.slupski.shopping.service.pojo.Product;
  */
 public class OrganizationService implements IOrganizationService {
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
+    private final String productsFile = System.getProperty("user.home") + "/files/products.json";
+    private final String clientsFile = System.getProperty("user.home") + "/files/clients.json";
+    private final String ordersFile = System.getProperty("user.home") + "/files/orders.json";
 
     @Override
     public List<Product> getAllProducts() {
         List<Product> result = new ArrayList();
         for (int i = 0; i < 30; i++) {
-            result.add(new Product(generateRandomString(8), UnitTypeEnum.KILOGRAM));
+            result.add(new Product(generateRandomString(8)));
         }
         return result;
     }
@@ -59,6 +71,39 @@ public class OrganizationService implements IOrganizationService {
             result.add(new Order(getRandomElement(clients), getRandomElement(products)));
         }
         return result;
+    }
+
+    @Override
+    public void insertProduct(Product product) {
+        Map<String, Object> map = new HashMap();
+        map.put("name", product.getName());
+        writeJsonObject(productsFile, map);
+    }
+
+    @Override
+    public void insertClient(Client client) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void insertOrder(Order order) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void writeJsonObject(String path, Map map) {
+        try {
+            JSONObject jsonObj = new JSONObject(map);
+            File fie = new File(path);
+            if (fie.exists()) {
+                Files.write(Paths.get(path), jsonObj.toString().getBytes(), StandardOpenOption.APPEND);
+            } else {
+                Files.write(Paths.get(path), jsonObj.toString().getBytes());
+            }
+
+        } catch (IOException ex) {
+
+        }
+
     }
 
 }
