@@ -11,86 +11,90 @@
         <h:form id="main_form">
 
             <p:layout fullPage="true">
-                <p:layoutUnit position="west" resizable="true" size="300" minSize="40" maxSize="500">
+                <p:layoutUnit position="west" resizable="false" size="300">
+                    <p:outputPanel autoUpdate="true">
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                            <div class="p-col">
+                                <h2>
+                                    <h:outputLabel value="Dodaj zamówienie" />
+                                </h2>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Klient" />
+                            </div>
+                            <div class="p-col">
+                                <p:selectOneMenu id="car" value="#{homeView.newOrder.client}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems value="#{homeView.clients}" var="client" itemLabel="#{client.name}" itemValue="#{client}" />
+                                </p:selectOneMenu>
+                        <!--                                <p:autoComplete value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" 
+                                                                        var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" dropdown="true" />-->
+                            </div>
 
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj zamówienie" />
-                            </h2>
-                        </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Klient" />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.name}" />
-                        </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Produkt " />
+                            </div>
+                            <div class="p-col">
+                                <p:autoComplete value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" />
+                            </div>
 
-                        <div class="p-col">
-                            <h:outputLabel value="Produkt " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        
-                        <div class="p-col">
-                            <h:outputLabel value="Ilo " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewClientAdd()}"/>
-                        </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Ilość" />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newClient.location}" />
+                            </div>
+                            <div class="p-col" style="margin: 20px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}"/>
+                            </div>
 
-                    </div>
-                    
-                    <hr/>
-                    <hr/>
-                    <hr/>
-                    
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj klienta" />
-                            </h2>
-                        </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Nazwa" />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.name}" />
                         </div>
 
-                        <div class="p-col">
-                            <h:outputLabel value="Adres " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewClientAdd()}"/>
-                        </div>
-                    </div>
+                        <hr/>
 
-                    <hr/>
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                            <div class="p-col">
+                                <h2>
+                                    <h:outputLabel value="Dodaj klienta" />
+                                </h2>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Nazwa" />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newClient.name}" />
+                            </div>
 
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj produkt " />
-                            </h2>
+                            <div class="p-col">
+                                <h:outputLabel value="Adres " />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newClient.location}" />
+                            </div>
+                            <div class="p-col" style="margin: 20px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}"/>
+                            </div>
                         </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Nazwa" />
+
+                        <hr/>
+
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                            <div class="p-col">
+                                <h2>
+                                    <h:outputLabel value="Dodaj produkt " />
+                                </h2>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Nazwa" />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newProduct.name}" />
+                            </div>
+                            <div class="p-col" style="margin: 20px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}"/>
+                            </div>
                         </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newProduct.name}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewProductAdd()}"/>
-                        </div>
-                    </div>
+                    </p:outputPanel>
 
                 </p:layoutUnit>
 

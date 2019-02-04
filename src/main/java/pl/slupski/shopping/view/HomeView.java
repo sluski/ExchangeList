@@ -1,5 +1,6 @@
 package pl.slupski.shopping.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -30,6 +31,8 @@ public class HomeView {
     public HomeView() {
         this.organizationService = new OrganizationService();
         newProduct = new Product();
+        newClient = new Client();
+        newOrder = new Order();
         takeData();
     }
 
@@ -39,11 +42,13 @@ public class HomeView {
 
     public void onNewProductAdd() {
         products.add(newProduct);
+        System.out.println("Produt added: " + newProduct.getName());
         newProduct = new Product();
     }
     
     public void onNewClientAdd() {
         clients.add(newClient);
+        System.out.println("Client added: " + newClient.getName());
         newClient = new Client();
     }
 
@@ -51,6 +56,26 @@ public class HomeView {
         products = organizationService.getAllProducts();
         clients = organizationService.getAllClients();
         orders = organizationService.getAllOrders();
+    }
+    
+    public List<Client> completeClient(String query) {
+        List<Client> result = new ArrayList();
+        for(Client client : clients) {
+            if(client.getName().toLowerCase().contains(query.toLowerCase())) {
+                result.add(client);
+            }
+        }
+        return result;
+    }
+    
+    public List<Product> completeProduct(String query) {
+        List<Product> result = new ArrayList();
+        for(Product product : products) {
+            if(product.getName().toLowerCase().contains(query.toLowerCase())) {
+                result.add(product);
+            }
+        }
+        return result;
     }
 
     public List<Product> getProducts() {
