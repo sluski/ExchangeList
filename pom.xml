@@ -25,10 +25,21 @@
             <artifactId>primefaces</artifactId>
             <version>5.0</version>
         </dependency>
+        <dependency>  
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency> 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
