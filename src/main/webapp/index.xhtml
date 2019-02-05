@@ -8,89 +8,98 @@
         <title>Exchange Planner</title>
     </h:head>
     <h:body>
+        <style>
+            html {
+                font-size: 14px;
+            }
+        </style>
         <h:form id="main_form">
+            <p:layout fullPage="true" widgetVar="main_layout">
+                <p:messages autoUpdate="true" showDetail="true" closable="true" />
+                <p:layoutUnit position="west" resizable="false" size="300">
+                    <p:outputPanel autoUpdate="false">
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
 
-            <p:layout fullPage="true">
-                <p:layoutUnit position="west" resizable="true" size="300" minSize="40" maxSize="500">
+                            <div class="p-col">
+                                <h3>
+                                    <h:outputLabel value="Dodaj zamówienie" />
+                                </h3>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Klient" />
 
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj zamówienie" />
-                            </h2>
-                        </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Klient" />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.name}" />
-                        </div>
+                            </div>
 
-                        <div class="p-col">
-                            <h:outputLabel value="Produkt " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        
-                        <div class="p-col">
-                            <h:outputLabel value="Ilo " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewClientAdd()}"/>
-                        </div>
+                            <div class="p-col">
+                                <p:autoComplete value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" 
+                                                var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" />
+                            </div>
 
-                    </div>
-                    
-                    <hr/>
-                    <hr/>
-                    <hr/>
-                    
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj klienta" />
-                            </h2>
-                        </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Nazwa" />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.name}" />
+                            <div class="p-col">
+                                <h:outputLabel value="Produkt " />
+                            </div>
+                            <div class="p-col">
+                                <p:autoComplete value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
+                                                var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" />
+                            </div>
+
+                            <div class="p-col">
+                                <h:outputLabel value="Ilość" />
+                            </div>
+                            <div class="p-col">
+                                <p:spinner id="basic" value="#{homeView.newOrder.count}" />
+                            </div>
+                            <div class="p-col" style="margin: 15px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="PF('main_layout)"/>
+                            </div>
+
                         </div>
 
-                        <div class="p-col">
-                            <h:outputLabel value="Adres " />
-                        </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newClient.location}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewClientAdd()}"/>
-                        </div>
-                    </div>
+                        <hr/>
 
-                    <hr/>
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                            <div class="p-col">
+                                <h3>
+                                    <h:outputLabel value="Dodaj klienta" />
+                                </h3>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Nazwa" />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newClient.name}" />
+                            </div>
 
-                    <div class="p-grid p-dir-col" style="margin: 5px 5px" >
-                        <div class="p-col">
-                            <h2>
-                                <h:outputLabel value="Dodaj produkt " />
-                            </h2>
+                            <div class="p-col">
+                                <h:outputLabel value="Adres " />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newClient.location}" />
+                            </div>
+                            <div class="p-col" style="margin: 15px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_layout)"/>
+                            </div>
                         </div>
-                        <div class="p-col">
-                            <h:outputLabel value="Nazwa" />
+
+                        <hr/>
+
+                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                            <div class="p-col">
+                                <h3>
+                                    <h:outputLabel value="Dodaj produkt " />
+                                </h3>
+                            </div>
+                            <div class="p-col">
+                                <h:outputLabel value="Nazwa" />
+                            </div>
+                            <div class="p-col">
+                                <p:inputText value="#{homeView.newProduct.name}" />
+                            </div>
+                            <div class="p-col" style="margin: 15px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_layout)"/>
+                            </div>
                         </div>
-                        <div class="p-col">
-                            <p:inputText value="#{homeView.newProduct.name}" />
-                        </div>
-                        <div class="p-col">
-                            <p:commandButton value="Dodaj" style="float: right; margin-top: 10px" actionListener="#{homeView.onNewProductAdd()}"/>
-                        </div>
-                    </div>
+                    </p:outputPanel>
 
                 </p:layoutUnit>
 

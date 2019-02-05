@@ -32,18 +32,18 @@ public class OrganizationService implements IOrganizationService {
     @Override
     public List<Product> getAllProducts() {
         List<Product> result = new ArrayList();
-        for (int i = 0; i < 30; i++) {
-            result.add(new Product(generateRandomString(8)));
-        }
+//        for (int i = 0; i < 30; i++) {
+//            result.add(new Product(generateRandomString(8)));
+//        }
         return result;
     }
 
     @Override
     public List<Client> getAllClients() {
         List<Client> result = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            result.add(new Client(generateRandomString(16), generateRandomString(25)));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            result.add(new Client(generateRandomString(16), generateRandomString(25)));
+//        }
         return result;
     }
 
@@ -65,11 +65,11 @@ public class OrganizationService implements IOrganizationService {
     @Override
     public List<Order> getAllOrders() {
         List<Order> result = new ArrayList();
-        List<Client> clients = getAllClients();
-        List<Product> products = getAllProducts();
-        for (int i = 0; i < 50; i++) {
-            result.add(new Order(getRandomElement(clients), getRandomElement(products)));
-        }
+//        List<Client> clients = getAllClients();
+//        List<Product> products = getAllProducts();
+//        for (int i = 0; i < 50; i++) {
+//            result.add(new Order(getRandomElement(clients), getRandomElement(products), 2));
+//        }
         return result;
     }
 

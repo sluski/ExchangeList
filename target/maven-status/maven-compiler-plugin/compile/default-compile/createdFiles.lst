@@ -1,6 +1,8 @@
+pl/slupski/shopping/view/converter/ProductConverter.class
 pl/slupski/shopping/service/interfaces/IOrganizationService.class
 pl/slupski/shopping/view/HomeView.class
 pl/slupski/shopping/service/pojo/Product.class
+pl/slupski/shopping/service/cache/DataCache.class
 pl/slupski/shopping/service/implementation/OrganizationService.class
 pl/slupski/shopping/service/enums/UnitTypeEnum.class
 pl/slupski/shopping/service/pojo/Client.class
