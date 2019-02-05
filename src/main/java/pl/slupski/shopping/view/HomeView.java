@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import pl.slupski.shopping.service.cache.DataCache;
 import pl.slupski.shopping.service.implementation.OrganizationService;
 import pl.slupski.shopping.service.interfaces.IOrganizationService;
 import pl.slupski.shopping.service.pojo.Client;
@@ -18,9 +19,9 @@ import pl.slupski.shopping.service.pojo.Product;
 @ViewScoped
 public class HomeView {
 
-    private List<Product> products;
-    private List<Client> clients;
-    private List<Order> orders;
+//    private List<Product> products;
+//    private List<Client> clients;
+//    private List<Order> orders;
 
     private final IOrganizationService organizationService;
 
@@ -33,42 +34,27 @@ public class HomeView {
         newProduct = new Product();
         newClient = new Client();
         newOrder = new Order();
-        takeData();
-    }
-    
-    public List<String> testComplete(String query) {
-        List<String> result = new ArrayList();
-        for(int i = 0; i < 10; i++) {
-            result.add(query + i);
-        }
-        return result;
     }
 
     public void onNewOrderAdd() {
-        orders.add(newOrder);
+        DataCache.addToOrders(newOrder);
     }
 
     public void onNewProductAdd() {
-        products.add(newProduct);
+        DataCache.addToProducts(newProduct);
         System.out.println("Produt added: " + newProduct.getName());
         newProduct = new Product();
     }
     
     public void onNewClientAdd() {
-        clients.add(newClient);
+        DataCache.addToClients(newClient);
         System.out.println("Client added: " + newClient.getName());
         newClient = new Client();
     }
 
-    private void takeData() {
-        products = organizationService.getAllProducts();
-        clients = organizationService.getAllClients();
-        orders = organizationService.getAllOrders();
-    }
-    
     public List<Client> completeClient(String query) {
         List<Client> result = new ArrayList();
-        for(Client client : clients) {
+        for(Client client : DataCache.getClients()) {
             if(client.getName().toLowerCase().contains(query.toLowerCase())) {
                 result.add(client);
             }
@@ -78,7 +64,7 @@ public class HomeView {
     
     public List<Product> completeProduct(String query) {
         List<Product> result = new ArrayList();
-        for(Product product : products) {
+        for(Product product : DataCache.getProducts()) {
             if(product.getName().toLowerCase().contains(query.toLowerCase())) {
                 result.add(product);
             }
@@ -87,15 +73,15 @@ public class HomeView {
     }
 
     public List<Product> getProducts() {
-        return products;
+        return DataCache.getProducts();
     }
 
     public List<Client> getClients() {
-        return clients;
+        return DataCache.getClients();
     }
 
     public List<Order> getOrders() {
-        return orders;
+        return DataCache.getOrders();
     }
 
     public Order getNewOrder() {

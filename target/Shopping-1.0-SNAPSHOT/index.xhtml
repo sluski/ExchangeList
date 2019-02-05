@@ -14,7 +14,7 @@
             }
         </style>
         <h:form id="main_form">
-            <p:layout fullPage="true">
+            <p:layout fullPage="true" widgetVar="main_layout">
                 <p:messages autoUpdate="true" showDetail="true" closable="true" />
                 <p:layoutUnit position="west" resizable="false" size="300">
                     <p:outputPanel autoUpdate="false">
@@ -39,7 +39,7 @@
                                 <h:outputLabel value="Produkt " />
                             </div>
                             <div class="p-col">
-                                <p:autoComplete value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" 
+                                <p:autoComplete value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
                                                 var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" />
                             </div>
 
@@ -50,7 +50,7 @@
                                 <p:spinner id="basic" value="#{homeView.newOrder.count}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="PF('main_layout)"/>
                             </div>
 
                         </div>
@@ -77,7 +77,7 @@
                                 <p:inputText value="#{homeView.newClient.location}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_layout)"/>
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@
                                 <p:inputText value="#{homeView.newProduct.name}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_layout)"/>
                             </div>
                         </div>
                     </p:outputPanel>

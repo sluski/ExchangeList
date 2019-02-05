@@ -65,11 +65,11 @@ public class OrganizationService implements IOrganizationService {
     @Override
     public List<Order> getAllOrders() {
         List<Order> result = new ArrayList();
-        List<Client> clients = getAllClients();
-        List<Product> products = getAllProducts();
-        for (int i = 0; i < 50; i++) {
-            result.add(new Order(getRandomElement(clients), getRandomElement(products), 2));
-        }
+//        List<Client> clients = getAllClients();
+//        List<Product> products = getAllProducts();
+//        for (int i = 0; i < 50; i++) {
+//            result.add(new Order(getRandomElement(clients), getRandomElement(products), 2));
+//        }
         return result;
     }
 
