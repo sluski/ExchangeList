@@ -68,7 +68,7 @@ public class OrganizationService implements IOrganizationService {
         List<Client> clients = getAllClients();
         List<Product> products = getAllProducts();
         for (int i = 0; i < 50; i++) {
-            result.add(new Order(getRandomElement(clients), getRandomElement(products)));
+            result.add(new Order(getRandomElement(clients), getRandomElement(products), 2));
         }
         return result;
     }

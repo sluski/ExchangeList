@@ -35,6 +35,14 @@ public class HomeView {
         newOrder = new Order();
         takeData();
     }
+    
+    public List<String> testComplete(String query) {
+        List<String> result = new ArrayList();
+        for(int i = 0; i < 10; i++) {
+            result.add(query + i);
+        }
+        return result;
+    }
 
     public void onNewOrderAdd() {
         orders.add(newOrder);
