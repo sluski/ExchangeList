@@ -32,18 +32,18 @@ public class OrganizationService implements IOrganizationService {
     @Override
     public List<Product> getAllProducts() {
         List<Product> result = new ArrayList();
-        for (int i = 0; i < 30; i++) {
-            result.add(new Product(generateRandomString(8)));
-        }
+//        for (int i = 0; i < 30; i++) {
+//            result.add(new Product(generateRandomString(8)));
+//        }
         return result;
     }
 
     @Override
     public List<Client> getAllClients() {
         List<Client> result = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            result.add(new Client(generateRandomString(16), generateRandomString(25)));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            result.add(new Client(generateRandomString(16), generateRandomString(25)));
+//        }
         return result;
     }
 
