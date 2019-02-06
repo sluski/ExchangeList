@@ -1,9 +1,11 @@
 package pl.slupski.shopping.service.cache;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import pl.slupski.shopping.service.implementation.OrganizationService;
 import pl.slupski.shopping.service.pojo.Client;
 import pl.slupski.shopping.service.pojo.Order;
 import pl.slupski.shopping.service.pojo.Product;
@@ -20,32 +22,65 @@ public class DataCache {
     private static List<Product> products;
     private static List<Client> clients;
 
-    public static void addToOrders(Order order) {
-        if (orders != null) {
-            orders.add(order);
-        } else {
-            orders = new ArrayList();
-            orders.add(order);
-        }
+    private static OrganizationService organizationService;
 
+    public static void saveState() throws IOException {
+        initIfIsNot();
+        organizationService.saveClients(clients);
+        organizationService.saveOrders(orders);
+        organizationService.saveProducts(products);
+    }
+
+    public static void restoreState() throws IOException {
+        initIfIsNot();
+        orders = new ArrayList(organizationService.getAllOrders());
+        products = new ArrayList(organizationService.getAllProducts());
+        clients = new ArrayList(organizationService.getAllClients());
+    }
+
+    public static Product findProductByName(String name) {
+        if (products != null) {
+            for (Product product : products) {
+                if (product.getName().equals(name)) {
+                    return product;
+                }
+            }
+        } 
+        return null;
+    }
+
+    public static Client findClientByName(String name) {
+        if(clients != null) {
+            for(Client client : clients) {
+                if(client.getName().equals(name)) {
+                    return client;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void clearState() {
+        initIfIsNot();
+    }
+
+    public static void clearOrders() {
+        initIfIsNot();
+    }
+
+    public static void addToOrders(Order order) {
+        initIfIsNot();
+        orders.add(order);
     }
 
     public static void addToProducts(Product product) {
-        if (products != null) {
-            products.add(product);
-        } else {
-            products = new ArrayList();
-            products.add(product);
-        }
+        initIfIsNot();
+        products.add(product);
     }
 
     public static void addToClients(Client client) {
-        if (clients != null) {
-            clients.add(client);
-        } else {
-            clients = new ArrayList();
-            clients.add(client);
-        }
+        initIfIsNot();
+        clients.add(client);
     }
 
     public static List<Order> getOrders() {
@@ -58,5 +93,20 @@ public class DataCache {
 
     public static List<Client> getClients() {
         return clients;
+    }
+
+    private static void initIfIsNot() {
+        if (orders == null) {
+            orders = new ArrayList();
+        }
+        if (clients == null) {
+            clients = new ArrayList();
+        }
+        if (products == null) {
+            products = new ArrayList();
+        }
+        if (organizationService == null) {
+            organizationService = new OrganizationService();
+        }
     }
 }

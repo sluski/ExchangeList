@@ -6,4 +6,5 @@ pl/slupski/shopping/service/cache/DataCache.class
 pl/slupski/shopping/service/implementation/OrganizationService.class
 pl/slupski/shopping/service/enums/UnitTypeEnum.class
 pl/slupski/shopping/service/pojo/Client.class
+pl/slupski/shopping/view/converter/ClientConverter.class
 pl/slupski/shopping/service/pojo/Order.class

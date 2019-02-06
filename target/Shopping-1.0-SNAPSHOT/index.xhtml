@@ -12,14 +12,19 @@
             html {
                 font-size: 14px;
             }
+
+            .menu_section {
+                margin: 5px 5px;
+
+            }
         </style>
         <h:form id="main_form">
             <p:layout fullPage="true" widgetVar="main_layout">
                 <p:messages autoUpdate="true" showDetail="true" closable="true" />
                 <p:layoutUnit position="west" resizable="false" size="300">
-                    <p:outputPanel autoUpdate="false">
-                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
 
+                    <div class="p-grid p-dir-col manu_secition" >
+                        <p:outputPanel id="left_menu" autoUpdate="false">
                             <div class="p-col">
                                 <h3>
                                     <h:outputLabel value="Dodaj zamówienie" />
@@ -27,37 +32,37 @@
                             </div>
                             <div class="p-col">
                                 <h:outputLabel value="Klient" />
-
                             </div>
 
                             <div class="p-col">
-                                <p:autoComplete value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" 
-                                                var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" />
+                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" converter="clientConverter"
+                                                var="client" itemLabel="#{client.name}" itemValue="#{client.name}"/>
                             </div>
 
                             <div class="p-col">
                                 <h:outputLabel value="Produkt " />
                             </div>
                             <div class="p-col">
-                                <p:autoComplete value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
-                                                var="clinet" itemLabel="#{clinet.name}" forceSelection="true" itemValue="#{client}" />
+                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
+                                                var="product" itemLabel="#{product.name}" itemValue="#{product.name}"/>
                             </div>
 
                             <div class="p-col">
                                 <h:outputLabel value="Ilość" />
                             </div>
                             <div class="p-col">
-                                <p:spinner id="basic" value="#{homeView.newOrder.count}" />
+                                <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="PF('main_layout)"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="main_form:autocomplete1"/>
                             </div>
+                        </p:outputPanel>
+                    </div>
 
-                        </div>
+                    <hr/>
 
-                        <hr/>
-
-                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                    <div class="p-grid p-dir-col menu_section" >
+                        <p:outputPanel autoUpdate="true">
                             <div class="p-col">
                                 <h3>
                                     <h:outputLabel value="Dodaj klienta" />
@@ -77,13 +82,15 @@
                                 <p:inputText value="#{homeView.newClient.location}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_layout)"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_form')"/>
                             </div>
-                        </div>
+                        </p:outputPanel>
+                    </div>
 
-                        <hr/>
+                    <hr/>
 
-                        <div class="p-grid p-dir-col" style="margin: 5px 5px" >
+                    <div class="p-grid p-dir-col menu_secition">
+                        <p:outputPanel autoUpdate="true">
                             <div class="p-col">
                                 <h3>
                                     <h:outputLabel value="Dodaj produkt " />
@@ -95,23 +102,34 @@
                             <div class="p-col">
                                 <p:inputText value="#{homeView.newProduct.name}" />
                             </div>
-                            <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_layout)"/>
+                            <div class="p-col" style="margin: 8px 0">
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_form')"/>
                             </div>
-                        </div>
+                        </p:outputPanel>
+                    </div>
+
+                    <hr/>
+                    <p:outputPanel>
+                        <p:commandButton value="Zapisz stan" actionListener="#{homeView.saveState()}" />
+                        <p:commandButton value="Przywróć stan" actionListener="#{homeView.restore()}" />
                     </p:outputPanel>
 
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    <p:dataTable value="#{homeView.orders}" var="order">
-                        <p:column headerText="Klient">
-                            <h:outputLabel value="#{order.client.name}" />
-                        </p:column>
-                        <p:column headerText="Produkt">
-                            <h:outputLabel value="#{order.product.name}" />
-                        </p:column>
-                    </p:dataTable>
+                    <p:outputPanel autoUpdate="true">
+                        <p:dataTable value="#{homeView.orders}" var="order">
+                            <p:column headerText="Klient">
+                                <h:outputLabel value="#{order.client.name}" />
+                            </p:column>
+                            <p:column headerText="Ilość">
+                                <h:outputLabel value="#{order.count}" />
+                            </p:column>
+                            <p:column headerText="Produkt">
+                                <h:outputLabel value="#{order.product.name}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
                 </p:layoutUnit>
             </p:layout>
 

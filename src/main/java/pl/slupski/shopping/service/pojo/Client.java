@@ -13,7 +13,8 @@ public class Client {
     private String location;
 
     public Client() {
-        
+        name = "";
+        location = "";
     }
 
     public Client(String name, String location) {

@@ -1,12 +1,13 @@
 package pl.slupski.shopping.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
-import pl.slupski.shopping.service.implementation.OrganizationService;
-import pl.slupski.shopping.service.interfaces.IOrganizationService;
 import pl.slupski.shopping.service.pojo.Client;
 import pl.slupski.shopping.service.pojo.Order;
 import pl.slupski.shopping.service.pojo.Product;
@@ -19,25 +20,42 @@ import pl.slupski.shopping.service.pojo.Product;
 @ViewScoped
 public class HomeView {
 
-//    private List<Product> products;
-//    private List<Client> clients;
-//    private List<Order> orders;
-
-    private final IOrganizationService organizationService;
-
     private Client newClient;
     private Order newOrder;
     private Product newProduct;
 
     public HomeView() {
-        this.organizationService = new OrganizationService();
         newProduct = new Product();
         newClient = new Client();
         newOrder = new Order();
     }
 
+    public void saveState() {
+        FacesMessage message;
+        try {
+            DataCache.saveState();
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sukces", "Zpisywanie zostało zakończone z powodzeniem.");
+        } catch (IOException ex) {
+            message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Błąd krytyczny", "Błąd podczas zapisywania danych. Error message: " + ex.getMessage());
+        }
+        PrimeFaces.current().dialog().showMessageDynamic(message);
+    }
+
+    public void restore() {
+        FacesMessage message;
+        try {
+            DataCache.restoreState();
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Sukces", "Przywracanie zostało zakończone z powodzeniem.");
+
+        } catch (IOException ex) {
+            message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Błąd krytyczny", "Błąd podczas przywracania danych. Error message: " + ex.getMessage());
+        }
+        PrimeFaces.current().dialog().showMessageDynamic(message);
+    }
+
     public void onNewOrderAdd() {
         DataCache.addToOrders(newOrder);
+        newOrder = new Order();
     }
 
     public void onNewProductAdd() {
@@ -45,7 +63,7 @@ public class HomeView {
         System.out.println("Produt added: " + newProduct.getName());
         newProduct = new Product();
     }
-    
+
     public void onNewClientAdd() {
         DataCache.addToClients(newClient);
         System.out.println("Client added: " + newClient.getName());
@@ -54,18 +72,18 @@ public class HomeView {
 
     public List<Client> completeClient(String query) {
         List<Client> result = new ArrayList();
-        for(Client client : DataCache.getClients()) {
-            if(client.getName().toLowerCase().contains(query.toLowerCase())) {
+        for (Client client : DataCache.getClients()) {
+            if (client.getName().toLowerCase().contains(query.toLowerCase())) {
                 result.add(client);
             }
         }
         return result;
     }
-    
+
     public List<Product> completeProduct(String query) {
         List<Product> result = new ArrayList();
-        for(Product product : DataCache.getProducts()) {
-            if(product.getName().toLowerCase().contains(query.toLowerCase())) {
+        for (Product product : DataCache.getProducts()) {
+            if (product.getName().toLowerCase().contains(query.toLowerCase())) {
                 result.add(product);
             }
         }
