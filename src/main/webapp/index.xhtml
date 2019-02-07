@@ -36,7 +36,8 @@
 
                             <div class="p-col">
                                 <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" converter="clientConverter"
-                                                var="client" itemLabel="#{client.name}" itemValue="#{client.name}"/>
+                                                var="client" itemLabel="#{client.name}" itemValue="#{client.name}">
+                                </p:autoComplete>
                             </div>
 
                             <div class="p-col">
@@ -44,7 +45,8 @@
                             </div>
                             <div class="p-col">
                                 <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
-                                                var="product" itemLabel="#{product.name}" itemValue="#{product.name}"/>
+                                                var="product" itemLabel="#{product.name}" itemValue="#{product.name}" >
+                                </p:autoComplete>
                             </div>
 
                             <div class="p-col">
@@ -54,7 +56,7 @@
                                 <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
                             </div>
                             <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="main_form:autocomplete1"/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="window.location.reload(true)"/>
                             </div>
                         </p:outputPanel>
                     </div>

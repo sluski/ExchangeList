@@ -1,6 +1,5 @@
 package pl.slupski.shopping.service.pojo;
 
-import lombok.Data;
 
 /**
  *
@@ -15,6 +14,7 @@ public class Order {
     public Order() {
         client = new Client();
         product = new Product();
+        count = 0;
     }
 
     public Order(Client client, Product product, int count) {
