@@ -7,20 +7,20 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import pl.slupski.shopping.service.cache.DataCache;
-import pl.slupski.shopping.service.pojo.Product;
+import pl.slupski.shopping.service.pojo.Client;
 
 /**
  *
  * @author sluski
  */
-@FacesConverter("productConverter")
-public class ProductConverter implements Converter {
+@FacesConverter("clientConverter")
+public class ClientConverter implements Converter {
 
     @Override
-    public Product getAsObject(FacesContext fc, UIComponent uic, String value) {
+    public Client getAsObject(FacesContext fc, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-                return DataCache.findProductByName(value);
+                return DataCache.findClientByName(value);
             } catch (NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
@@ -37,4 +37,5 @@ public class ProductConverter implements Converter {
             return null;
         }
     }
+    
 }

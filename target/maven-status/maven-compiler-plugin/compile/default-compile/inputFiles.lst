@@ -1,4 +1,5 @@
 /home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/interfaces/IOrganizationService.java
+/home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/view/converter/ClientConverter.java
 /home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/pojo/Order.java
 /home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/view/converter/ProductConverter.java
 /home/sluski/Documents/Projects/ExchangeList/src/main/java/pl/slupski/shopping/service/cache/DataCache.java
