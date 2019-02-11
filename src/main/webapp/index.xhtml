@@ -21,7 +21,7 @@
         <h:form id="main_form">
             <p:layout fullPage="true" widgetVar="main_layout">
                 <p:messages autoUpdate="true" showDetail="true" closable="true" />
-                <p:layoutUnit position="west" resizable="false" size="300">
+                <p:layoutUnit position="west" resizable="false" size="300" collapsible="true" >
 
                     <div class="p-grid p-dir-col manu_secition" >
                         <p:outputPanel id="left_menu" autoUpdate="false">
@@ -113,21 +113,23 @@
                     <hr/>
                     <p:outputPanel>
                         <p:commandButton value="Zapisz stan" actionListener="#{homeView.saveState()}" />
-                        <p:commandButton value="Przywróć stan" actionListener="#{homeView.restore()}" />
+                        <p:commandButton value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="PF('ordersTable')" />
+                        <p:commandButton value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="PF('ordersTable')" />
                     </p:outputPanel>
 
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    <p:outputPanel autoUpdate="true">
-                        <p:dataTable value="#{homeView.orders}" var="order">
-                            <p:column headerText="Klient">
+                    <p:outputPanel autoUpdate="false">
+                        <p:dataTable value="#{homeView.orders}" lazy="false" var="order" widgetVar="ordersTable" >
+
+                            <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains">
                                 <h:outputLabel value="#{order.client.name}" />
                             </p:column>
                             <p:column headerText="Ilość">
                                 <h:outputLabel value="#{order.count}" />
                             </p:column>
-                            <p:column headerText="Produkt">
+                            <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains">
                                 <h:outputLabel value="#{order.product.name}" />
                             </p:column>
                         </p:dataTable>

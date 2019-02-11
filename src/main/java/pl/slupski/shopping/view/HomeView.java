@@ -23,7 +23,7 @@ public class HomeView {
     private Client newClient;
     private Order newOrder;
     private Product newProduct;
-
+    
     public HomeView() {
         newProduct = new Product();
         newClient = new Client();
@@ -39,6 +39,10 @@ public class HomeView {
             message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Błąd krytyczny", "Błąd podczas zapisywania danych. Error message: " + ex.getMessage());
         }
         PrimeFaces.current().dialog().showMessageDynamic(message);
+    }
+    
+    public void clearOrders() {
+        DataCache.clearOrders();
     }
 
     public void restore() {
@@ -113,5 +117,6 @@ public class HomeView {
     public Client getNewClient() {
         return newClient;
     }
+    
 
 }
