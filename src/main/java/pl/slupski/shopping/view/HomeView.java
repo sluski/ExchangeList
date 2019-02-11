@@ -62,6 +62,10 @@ public class HomeView {
         newOrder = new Order();
     }
 
+    public void clearAll() {
+        DataCache.clearState();
+    }
+    
     public void onNewProductAdd() {
         DataCache.addToProducts(newProduct);
         System.out.println("Produt added: " + newProduct.getName());

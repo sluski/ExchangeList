@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Exchange Planner</title>
     </h:head>
@@ -17,114 +16,122 @@
                 margin: 5px 5px;
 
             }
+
+            .menu_button {
+                font-size: 0.8em;
+                width: 100%;
+                margin: 0;
+                padding: 0.1em;
+
+            }
+
+            #content_blocker {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: #000;
+                opacity: 0.975;
+                z-index: 9999;
+            }
+
+            .log_box {
+                position: absolute;
+                top: calc(50% - 100px);
+                left: calc(50% - 160px);
+                height: 200px;
+                width: 320px;
+                background-color: #cccccc;
+                border-radius: 1em;
+            }
+
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: calc(50% - 100px)
+            }
+
         </style>
         <h:form id="main_form">
+            <div id="content_blocker">
+                <div class="log_box">
+                    <h:panelGrid class="center" columns="2" cellpadding="4">
+                        <p:outputLabel value="Login" />
+                        <input style="background-color: white; color: black" id="log_login" type="text" /> 
+
+                        <p:outputLabel value="Hasło" />
+                        <input style="background-color: white; color: black" id="log_pass" type="password" /> 
+
+                        <p:commandButton value="Zaloguj" onclick="logFunc()"/>
+                    </h:panelGrid>
+                </div>
+            </div>
             <p:layout fullPage="true" widgetVar="main_layout">
                 <p:messages autoUpdate="true" showDetail="true" closable="true" />
-                <p:layoutUnit position="west" resizable="false" size="300" collapsible="true" >
+                <p:layoutUnit position="west" resizable="true" size="300" collapsible="true" collapseSize="20">
 
-                    <div class="p-grid p-dir-col manu_secition" >
-                        <p:outputPanel id="left_menu" autoUpdate="false">
-                            <div class="p-col">
-                                <h3>
-                                    <h:outputLabel value="Dodaj zamówienie" />
-                                </h3>
-                            </div>
-                            <div class="p-col">
+                    <p:accordionPanel multiple="true">
+                        <p:tab title="Dodaj zamówienie" id="order_adding_tab">
+                            <h:panelGrid columns="1" >
                                 <h:outputLabel value="Klient" />
-                            </div>
-
-                            <div class="p-col">
-                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" converter="clientConverter"
-                                                var="client" itemLabel="#{client.name}" itemValue="#{client.name}">
-                                </p:autoComplete>
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Produkt " />
-                            </div>
-                            <div class="p-col">
-                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
-                                                var="product" itemLabel="#{product.name}" itemValue="#{product.name}" >
-                                </p:autoComplete>
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Ilość" />
-                            </div>
-                            <div class="p-col">
+                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" emptyMessage="Nie znaleziono wyników"
+                                                converter="clientConverter" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
+                                <hr/>
+                                <h:outputLabel value="Produkt" />
+                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" emptyMessage="Nie znaleziono wyników"
+                                                converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
+                                <hr/>
+                                <p:outputLabel value="Ilość" />
                                 <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
-                            </div>
-                            <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="window.location.reload(true)"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
-
-                    <hr/>
-
-                    <div class="p-grid p-dir-col menu_section" >
-                        <p:outputPanel autoUpdate="true">
-                            <div class="p-col">
-                                <h3>
-                                    <h:outputLabel value="Dodaj klienta" />
-                                </h3>
-                            </div>
-                            <div class="p-col">
-                                <h:outputLabel value="Nazwa" />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newClient.name}" />
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Adres " />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newClient.location}" />
-                            </div>
-                            <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_form')"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
-
-                    <hr/>
-
-                    <div class="p-grid p-dir-col menu_secition">
-                        <p:outputPanel autoUpdate="true">
-                            <div class="p-col">
-                                <h3>
+                                <hr/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" 
+                                                 oncomplete="window.location.reload()"/>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Dodaj produkt" id="products_tab">
+                            <p:outputPanel autoUpdate="true">
+                                <h:panelGrid columns="1">
                                     <h:outputLabel value="Dodaj produkt " />
-                                </h3>
-                            </div>
-                            <div class="p-col">
-                                <h:outputLabel value="Nazwa" />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newProduct.name}" />
-                            </div>
-                            <div class="p-col" style="margin: 8px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_form')"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
+                                    <p:inputText value="#{homeView.newProduct.name}" />
+                                    <hr/>
+                                    <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" />
+                                </h:panelGrid>
+                            </p:outputPanel>
 
-                    <hr/>
-                    <p:outputPanel>
-                        <p:commandButton value="Zapisz stan" actionListener="#{homeView.saveState()}" />
-                        <p:commandButton value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="PF('ordersTable')" />
-                        <p:commandButton value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="PF('ordersTable')" />
-                    </p:outputPanel>
+                        </p:tab>
+                        <p:tab title="Dodaj klienta">
+                            <p:outputPanel autoUpdate="true">
+                                <h:panelGrid columns="1" >
+                                    <h:outputLabel value="Nazwa" />
+                                    <p:inputText value="#{homeView.newClient.name}" />
+                                    <hr/>
+                                    <h:outputLabel value="Adres " />
+                                    <p:inputText value="#{homeView.newClient.location}" />
+                                    <hr/>
+                                    <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" />
+                                </h:panelGrid>
+                            </p:outputPanel>
 
+                        </p:tab>
+                        <p:tab title="Operacje">
+                            <h:panelGrid columns="2" cellpadding="2" cellspacing="0" style="padding: 0; margin: 0 auto" >
+                                <p:commandButton class="menu_button" value="Przywróć stan" actionListener="#{homeView.restore()}"  />
+                                <p:commandButton class="menu_button" value="Zapisz stan" actionListener="#{homeView.saveState()}" />                                
+
+                                <p:commandButton class="menu_button" value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()"/>
+                                <p:commandButton class="menu_button" value="Usuń wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" />
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
                     <p:outputPanel autoUpdate="false">
-                        <p:dataTable value="#{homeView.orders}" lazy="false" var="order" widgetVar="ordersTable" >
+                        <p:dataTable value="#{homeView.orders}" lazy="false" var="order" id="ordersTable" widgetVar="ordersTable" >
 
                             <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains">
-                                <h:outputLabel value="#{order.client.name}" />
+                                <h:outputLabel value="#{order.client.name}"/>
                             </p:column>
                             <p:column headerText="Ilość">
                                 <h:outputLabel value="#{order.count}" />
@@ -136,8 +143,20 @@
                     </p:outputPanel>
                 </p:layoutUnit>
             </p:layout>
-
         </h:form>
     </h:body>
+    <script>
+        // little protection against non technical users :D
+        function logFunc() {
+            var login = $('#log_login').val();
+            var pass = $('#log_pass').val();
+
+            if (login === 'hidden', pass === 'data') {
+                $('#content_blocker').remove();
+            } else {
+                alert("Login or password incorrect");
+            }
+        }
+    </script>
 </html>
 
