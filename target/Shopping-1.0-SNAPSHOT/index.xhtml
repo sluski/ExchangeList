@@ -54,19 +54,6 @@
 
         </style>
         <h:form id="main_form">
-            <div id="content_blocker">
-                <div class="log_box">
-                    <h:panelGrid class="center" columns="2" cellpadding="4">
-                        <p:outputLabel value="Login" />
-                        <input style="background-color: white; color: black" id="log_login" type="text" /> 
-
-                        <p:outputLabel value="Hasło" />
-                        <input style="background-color: white; color: black" id="log_pass" type="password" /> 
-
-                        <p:commandButton value="Zaloguj" onclick="logFunc()"/>
-                    </h:panelGrid>
-                </div>
-            </div>
             <p:layout fullPage="true" widgetVar="main_layout">
                 <p:messages autoUpdate="true" showDetail="true" closable="true" />
                 <p:layoutUnit position="west" resizable="true" size="300" collapsible="true" collapseSize="20">
@@ -145,18 +132,5 @@
             </p:layout>
         </h:form>
     </h:body>
-    <script>
-        // little protection against non technical users :D
-        function logFunc() {
-            var login = $('#log_login').val();
-            var pass = $('#log_pass').val();
-
-            if (login === 'hidden', pass === 'data') {
-                $('#content_blocker').remove();
-            } else {
-                alert("Login or password incorrect");
-            }
-        }
-    </script>
 </html>
 
