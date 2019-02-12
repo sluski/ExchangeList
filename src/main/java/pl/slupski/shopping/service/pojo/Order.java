@@ -10,6 +10,7 @@ public class Order {
     private Client client;
     private Product product;
     private int count;
+    private boolean bought;
 
     public Order() {
         client = new Client();
@@ -17,7 +18,7 @@ public class Order {
         count = 0;
     }
 
-    public Order(Client client, Product product, int count) {
+    public Order(Client client, Product product, int count, boolean bought) {
         this.client = client;
         this.product = product;
     }
@@ -45,6 +46,16 @@ public class Order {
     public void setCount(int count) {
         this.count = count;
     }
+
+    public boolean isBought() {
+        return bought;
+    }
+
+    public void setBought(boolean bought) {
+        this.bought = bought;
+    }
+    
+    
     
     
 
