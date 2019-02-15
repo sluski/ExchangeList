@@ -52,17 +52,10 @@
                 margin-right: auto;
                 margin-top: calc(50% - 100px)
             }
-
-            @media only screen and (max-width: 600px) {
-                .ui-layout-west {
-                    width: 0 !important;
-                    
-                }
-            }
         </style>
         <h:form id="main_form">
+            <p:messages autoUpdate="true" showDetail="true" closable="true" style="z-index: 9999 !important" />
             <p:layout fullPage="true" widgetVar="main_layout">
-                <p:messages autoUpdate="true" showDetail="true" closable="true" />
                 <p:layoutUnit id="layout_unit_west" position="west" resizable="true" size="300">
                     <p:accordionPanel multiple="true" id="accordionPanel_operations">
                         <p:tab title="Dodaj zamówienie" id="order_adding_tab">
@@ -78,68 +71,39 @@
                                 <p:outputLabel value="Ilość" />
                                 <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
                                 <hr/>
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" 
-                                                 oncomplete="window.location.reload()"/>
+                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="testowe() updateOrderAddingTab()"/>
+                                <p:remoteCommand name="updateOrderAddingTab" update="@none" />
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Dodaj produkt" id="products_tab">
-                            <p:outputPanel autoUpdate="true">
-                                <h:panelGrid columns="1">
-                                    <h:outputLabel value="Dodaj produkt " />
-                                    <p:inputText value="#{homeView.newProduct.name}" />
-                                    <hr/>
-                                    <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" />
-                                </h:panelGrid>
-                            </p:outputPanel>
-
-                        </p:tab>
-                        <p:tab title="Dodaj klienta">
-                            <p:outputPanel autoUpdate="true">
-                                <h:panelGrid columns="1" >
-                                    <h:outputLabel value="Nazwa" />
-                                    <p:inputText value="#{homeView.newClient.name}" />
-                                    <hr/>
-                                    <h:outputLabel value="Adres " />
-                                    <p:inputText value="#{homeView.newClient.location}" />
-                                    <hr/>
-                                    <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" />
-                                </h:panelGrid>
-                            </p:outputPanel>
-
-                        </p:tab>
+                      
                         <p:tab title="Operacje">
                             <h:panelGrid columns="2" cellpadding="2" cellspacing="0" style="padding: 0; margin: 0 auto" >
-                                <p:commandButton class="menu_button" value="Przywróć stan" actionListener="#{homeView.restore()}"  />
-                                <p:commandButton class="menu_button" value="Zapisz stan" actionListener="#{homeView.saveState()}" />                                
+                                <p:commandButton class="menu_button" value="Przywróć stan" actionListener="#{homeView.restore()}"  tabindex="0"/>
+                                <p:commandButton class="menu_button" value="Zapisz stan" actionListener="#{homeView.saveState()}" tabindex="0"/>                                
 
-                                <p:commandButton class="menu_button" value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()"/>
-                                <p:commandButton class="menu_button" value="Usuń wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" />
+                                <p:commandButton class="menu_button" value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()" tabindex="0"/>
+                                <p:commandButton class="menu_button" value="Usuń wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" tabindex="0"/>
                             </h:panelGrid>
                         </p:tab>
                     </p:accordionPanel>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="center">
-                    <p:outputPanel autoUpdate="false">
-                        <p:dataTable value="#{homeView.orders}" lazy="false" var="order" id="ordersTable" widgetVar="ordersTable" >
-
-                            <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
-                                <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto">
-                                    <p:ajax update="main_form:ordersTable" />
-                                </p:selectBooleanCheckbox>
-                            </p:column>
-                            <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
-                                <h:outputLabel value="#{order.client.name}"/>
-                            </p:column>
-                            <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
-                                <h:outputLabel value="#{order.count}" />
-                            </p:column>
-                            <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
-                                <h:outputLabel value="#{order.product.name}" />
-                            </p:column>
-
-                        </p:dataTable>
-                    </p:outputPanel>
+                <p:layoutUnit id="layout_unit_center" position="center">
+                    <p:dataTable value="#{homeView.orders}" var="order" id="ordersTable">
+                        <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
+                            <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
+                        </p:column>
+                        <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
+                            <h:outputLabel value="#{order.client.name}"/>
+                        </p:column>
+                        <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
+                            <h:outputLabel value="#{order.count}" />
+                        </p:column>
+                        <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
+                            <h:outputLabel value="#{order.product.name}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:remoteCommand name="testowe" update="ordersTable" />
                 </p:layoutUnit>
             </p:layout>
         </h:form>
