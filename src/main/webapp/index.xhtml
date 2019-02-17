@@ -6,6 +6,7 @@
     <h:head>
         <title>Exchange Planner</title>
         <script src="jquery-3.3.1.min.js"></script>
+        <meta charset="UTF-8" /> 
     </h:head>
     <h:body>
         <style>
@@ -52,12 +53,26 @@
                 margin-right: auto;
                 margin-top: calc(50% - 100px)
             }
+            
+            #top_aboslute_menu {
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                z-index: 9999;
+            }
+
+            .ui-icon {
+                width: 16px !important;
+                font-size: 14px!important;
+            }
         </style>
         <h:form id="main_form">
-            <p:messages autoUpdate="true" showDetail="true" closable="true" style="z-index: 9999 !important" />
-            <p:layout fullPage="true" widgetVar="main_layout">
-                <p:layoutUnit id="layout_unit_west" position="west" resizable="true" size="300">
-                    <p:accordionPanel multiple="true" id="accordionPanel_operations">
+            <p:layout fullPage="true" widgetVar="data_layout">
+                <div id="top_aboslute_menu">
+                    <p:commandButton icon="fa fa-arrow-left" onclick="toggleWestLayoutUnit()" style="width: 24px; height: 24px" />
+                </div>
+                <p:layoutUnit position="west" size="300" resizable="true" collapsible="true" collapseSize="30">
+                    <p:accordionPanel multiple="true" id="accordionPanel_operations" style="margin-top: 24px !important">
                         <p:tab title="Dodaj zamówienie" id="order_adding_tab">
                             <h:panelGrid columns="1" >
                                 <h:outputLabel value="Klient" />
@@ -69,26 +84,43 @@
                                                 converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
                                 <hr/>
                                 <p:outputLabel value="Ilość" />
-                                <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
+                                <p:inputText id="spinner1" value="#{homeView.newOrder.count}" />
                                 <hr/>
-                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="testowe() updateOrderAddingTab()"/>
-                                <p:remoteCommand name="updateOrderAddingTab" update="@none" />
+                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrderAddingTab()"/>
+                                <p:remoteCommand name="updateOrderAddingTab"  />
                             </h:panelGrid>
                         </p:tab>
-                      
+                        <p:tab title="Dodaj produkt" id="products_tab">
+                            <h:panelGrid columns="1">
+                                <h:outputLabel value="Dodaj produkt " />
+                                <p:inputText id="add_product_input" value="#{homeView.newProduct.name}" />
+                                <hr/>
+                                <p:commandButton id="add_product_button" value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" tabindex="0"/>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Dodaj klienta">
+                            <h:panelGrid columns="1" >
+                                <h:outputLabel value="Nazwa" />
+                                <p:inputText value="#{homeView.newClient.name}" />
+                                <hr/>
+                                <h:outputLabel value="Adres " />
+                                <p:inputText value="#{homeView.newClient.location}" />
+                                <hr/>
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" tabindex="0"/>
+                            </h:panelGrid>
+                        </p:tab>
                         <p:tab title="Operacje">
                             <h:panelGrid columns="2" cellpadding="2" cellspacing="0" style="padding: 0; margin: 0 auto" >
-                                <p:commandButton class="menu_button" value="Przywróć stan" actionListener="#{homeView.restore()}"  tabindex="0"/>
+                                <p:commandButton class="menu_button" value="Przywró? stan" actionListener="#{homeView.restore()}"  tabindex="0"/>
                                 <p:commandButton class="menu_button" value="Zapisz stan" actionListener="#{homeView.saveState()}" tabindex="0"/>                                
 
-                                <p:commandButton class="menu_button" value="Usuń zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()" tabindex="0"/>
-                                <p:commandButton class="menu_button" value="Usuń wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" tabindex="0"/>
+                                <p:commandButton class="menu_button" value="Usu? zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()" tabindex="0"/>
+                                <p:commandButton class="menu_button" value="Usu? wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" tabindex="0"/>
                             </h:panelGrid>
                         </p:tab>
                     </p:accordionPanel>
                 </p:layoutUnit>
-
-                <p:layoutUnit id="layout_unit_center" position="center">
+                <p:layoutUnit position="center">
                     <p:dataTable value="#{homeView.orders}" var="order" id="ordersTable">
                         <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
                             <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
@@ -103,9 +135,14 @@
                             <h:outputLabel value="#{order.product.name}" />
                         </p:column>
                     </p:dataTable>
-                    <p:remoteCommand name="testowe" update="ordersTable" />
+                    <p:remoteCommand name="updateOrderTable" update="ordersTable" />
                 </p:layoutUnit>
             </p:layout>
+            <script>
+                function toggleWestLayoutUnit() {
+                    PrimeFaces.widgets.data_layout.toggle('west');
+                }
+            </script>
         </h:form>
     </h:body>
 </html>
