@@ -6,6 +6,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.print.attribute.standard.Severity;
 import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
 import pl.slupski.shopping.service.pojo.Client;
@@ -61,6 +63,14 @@ public class HomeView {
     public void onNewOrderAdd() {
         DataCache.addToOrders(newOrder);
         newOrder = new Order();
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Klient: ");
+        strBuilder.append(newOrder.getClient().getName());
+        strBuilder.append("\n Produkt: ");
+        strBuilder.append(newOrder.getProduct().getName());
+        strBuilder.append("\n Ilość: ");
+        strBuilder.append(newOrder.getCount());
+        growlMessage("Zamównienie zostało dodane", strBuilder.toString());
     }
 
     public void clearAll() {
@@ -69,13 +79,21 @@ public class HomeView {
 
     public void onNewProductAdd() {
         DataCache.addToProducts(newProduct);
-        System.out.println("Produt added: " + newProduct.getName());
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Produkt o nazwie ");
+        strBuilder.append(newProduct.getName());
+        strBuilder.append(" został dodany");
+        growlMessage("Produkt został dodany", strBuilder.toString());
         newProduct = new Product();
     }
 
     public void onNewClientAdd() {
         DataCache.addToClients(newClient);
-        System.out.println("Client added: " + newClient.getName());
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Klient o nazwie ");
+        strBuilder.append(newProduct.getName());
+        strBuilder.append(" został dodany");
+        growlMessage("Klient został dodany", strBuilder.toString());
         newClient = new Client();
     }
 
@@ -97,6 +115,11 @@ public class HomeView {
             }
         }
         return result;
+    }
+
+    private void growlMessage(String header, String message) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(header, message));
     }
 
     public List<Product> getProducts() {

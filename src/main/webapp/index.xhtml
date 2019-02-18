@@ -10,7 +10,9 @@
     <h:body>
         <h:outputStylesheet library="css" name="style.css" />
         <h:outputScript library="js" name="script.js" />
-
+        <p:growl id="growl" showDetail="true" sticky="false" globalOnly="true" life="3000">
+            <p:autoUpdate />
+        </p:growl>
         <p:layout fullPage="true">
             <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
                 <h:form id="operations_form">
@@ -31,14 +33,16 @@
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj klienta">
-                            <p:outputPanel autoUpdate="true">
+                            <p:outputPanel>
+                                <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newClient.name}" />
                                 <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" />
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
-                            <p:outputPanel autoUpdate="true">
+                            <p:outputPanel>
+                                <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newProduct.name}" />
                                 <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" />
