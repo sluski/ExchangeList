@@ -14,6 +14,11 @@
         <p:growl id="growl" showDetail="true" sticky="false" globalOnly="true" life="3000">
             <p:autoUpdate />
         </p:growl>
+        <p:confirmDialog widgetVar="confirmeDeleteAll" severity="alert" global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes"  icon="fa fa-fw fa-check" />
+        </p:confirmDialog>
+
         <p:layout fullPage="true">
             <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
                 <h:form id="operations_form">
@@ -59,8 +64,8 @@
                 </h:form>
             </p:layoutUnit>
             <p:layoutUnit position="center" collapsible="true">
-                <h:form>
-                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" selectionMode="single"
+                <h:form id="data_form" style="height: 100% !important">
+                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" selectionMode="single" scrollable="true" virtualScroll="true"
                                  selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}">
                         <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
                             <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
@@ -77,8 +82,8 @@
                         <f:facet name="footer">
                             <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj"  />
                             <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
-                            <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()">
-                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?" icon="pi pi-exclamation-triangle" />
+                            <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()" >
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?"/>
                             </p:commandButton>
                         </f:facet>
                     </p:dataTable>
