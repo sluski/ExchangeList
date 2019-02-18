@@ -8,18 +8,41 @@
         <meta charset="UTF-8" />
     </h:head>
     <h:body>
+        <h:outputStylesheet library="css" name="style.css" />
+        <h:outputScript library="js" name="script.js" />
+
         <p:layout fullPage="true">
             <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
-                <h:form>
-                    <p:accordionPanel multiple="true">
+                <h:form id="operations_form">
+                    <p:accordionPanel id="operations_accordion_panel" multiple="true" activeIndex="0">
                         <p:tab closable="true" title="Dodaj zamówienie">
-
+                            <p:outputPanel autoUpdate="false">
+                                <p:ajax resetValues="true" />
+                                <p:outputLabel value="Klient" />
+                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" emptyMessage="Nie znaleziono wyników"
+                                                converter="clientConverter" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
+                                <p:outputLabel value="Produkt" />
+                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" emptyMessage="Nie znaleziono wyników"
+                                                converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
+                                <p:outputLabel value="Ilość" />
+                                <p:inputText value="#{homeView.newOrder.count}" />
+                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); cleanNewOrderValues()"/>
+                                <p:commandButton id="resetNewOrderButton" class="unvisible" type="reset" value="reset" />
+                            </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj klienta">
-
+                            <p:outputPanel autoUpdate="true">
+                                <p:outputLabel value="Nazwa" />
+                                <p:inputText value="#{homeView.newClient.name}" />
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" />
+                            </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
-
+                            <p:outputPanel autoUpdate="true">
+                                <p:outputLabel value="Nazwa" />
+                                <p:inputText value="#{homeView.newProduct.name}" />
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" />
+                            </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Opcje">
 
@@ -29,9 +52,22 @@
             </p:layoutUnit>
             <p:layoutUnit position="center" collapsible="true">
                 <h:form>
-                    <p:dataTable value="#{homeView.orders}" var="order" selectionMode="single" selection="#{homeView.selectedOrder}">
-
+                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" selectionMode="single"
+                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}">
+                        <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
+                            <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
+                        </p:column>
+                        <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
+                            <h:outputLabel value="#{order.client.name}"/>
+                        </p:column>
+                        <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
+                            <h:outputLabel value="#{order.count}" />
+                        </p:column>
+                        <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
+                            <h:outputLabel value="#{order.product.name}" />
+                        </p:column>
                     </p:dataTable>
+                    <p:remoteCommand name="updateOrdersTable" update="ordersTable" />
                 </h:form>
             </p:layoutUnit>
         </p:layout>
