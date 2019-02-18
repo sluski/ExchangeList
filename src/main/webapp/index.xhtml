@@ -2,12 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Exchange Planner</title>
         <meta charset="UTF-8" />
     </h:head>
-    <h:body>
+    <h:body onload="onLoadPage()">
         <h:outputStylesheet library="css" name="style.css" />
         <h:outputScript library="js" name="script.js" />
         <p:growl id="growl" showDetail="true" sticky="false" globalOnly="true" life="3000">
@@ -29,7 +30,7 @@
                                 <p:outputLabel value="Ilość" />
                                 <p:inputText value="#{homeView.newOrder.count}" />
                                 <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); cleanNewOrderValues()"/>
-                                <p:commandButton id="resetNewOrderButton" class="unvisible" type="reset" value="reset" />
+                                <p:commandButton id="resetNewOrderButton" class="invisibleButton" type="reset" value="reset" />
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj klienta">
@@ -38,6 +39,7 @@
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newClient.name}" />
                                 <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" />
+                                <p:commandButton id="resetNewClientButton" class="invisibleButton" type="reset" value="reset" />
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
@@ -46,10 +48,12 @@
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newProduct.name}" />
                                 <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" />
+                                <p:commandButton id="resetNewProductButton" class="invisibleButton" type="reset" value="reset" />
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Opcje">
-
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-reply-all" value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="window.location.reload()" />
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-save" value="Zapisz stan" actionListener="#{homeView.saveState()}" oncomplete="window.location.reload()" />
                         </p:tab>
                     </p:accordionPanel>
                 </h:form>
@@ -70,6 +74,13 @@
                         <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
                             <h:outputLabel value="#{order.product.name}" />
                         </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj"  />
+                            <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
+                            <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()">
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?" icon="pi pi-exclamation-triangle" />
+                            </p:commandButton>
+                        </f:facet>
                     </p:dataTable>
                     <p:remoteCommand name="updateOrdersTable" update="ordersTable" />
                 </h:form>

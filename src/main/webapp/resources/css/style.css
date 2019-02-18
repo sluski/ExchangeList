@@ -10,7 +10,13 @@ body {
     padding: 0;
 }
 
-.unvisible {
+.invisibleButton {
     visibility: hidden;
+}
+
+.menu_button {
+    width: 100%;
+    text-align: center;
+    margin: 2px;
 }
 

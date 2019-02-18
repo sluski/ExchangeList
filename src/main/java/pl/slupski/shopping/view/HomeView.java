@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.print.attribute.standard.Severity;
 import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
 import pl.slupski.shopping.service.pojo.Client;
@@ -19,7 +18,7 @@ import pl.slupski.shopping.service.pojo.Product;
  * @author sluski
  */
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class HomeView {
 
     private Client newClient;
