@@ -5,145 +5,36 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Exchange Planner</title>
-        <script src="jquery-3.3.1.min.js"></script>
-        <meta charset="UTF-8" /> 
+        <meta charset="UTF-8" />
     </h:head>
     <h:body>
-        <style>
-            html {
-                font-size: 14px;
-            }
+        <p:layout fullPage="true">
+            <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
+                <h:form>
+                    <p:accordionPanel multiple="true">
+                        <p:tab closable="true" title="Dodaj zamówienie">
 
-            .menu_section {
-                margin: 5px 5px;
-
-            }
-
-            .menu_button {
-                font-size: 0.8em;
-                width: 100%;
-                margin: 0;
-                padding: 0.1em;
-
-            }
-
-            #content_blocker {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background-color: #000;
-                opacity: 0.975;
-                z-index: 9999;
-            }
-
-            .log_box {
-                position: absolute;
-                top: calc(50% - 100px);
-                left: calc(50% - 160px);
-                height: 200px;
-                width: 320px;
-                background-color: #cccccc;
-                border-radius: 1em;
-            }
-
-            .center {
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: calc(50% - 100px)
-            }
-            
-            #top_aboslute_menu {
-                position: absolute;
-                top: 2px;
-                left: 2px;
-                z-index: 9999;
-            }
-
-            .ui-icon {
-                width: 16px !important;
-                font-size: 14px!important;
-            }
-        </style>
-        <h:form id="main_form">
-            <p:layout fullPage="true" widgetVar="data_layout">
-                <div id="top_aboslute_menu">
-                    <p:commandButton icon="fa fa-arrow-left" onclick="toggleWestLayoutUnit()" style="width: 24px; height: 24px" />
-                </div>
-                <p:layoutUnit position="west" size="300" resizable="true" collapsible="true" collapseSize="30">
-                    <p:accordionPanel multiple="true" id="accordionPanel_operations" style="margin-top: 24px !important">
-                        <p:tab title="Dodaj zamówienie" id="order_adding_tab">
-                            <h:panelGrid columns="1" >
-                                <h:outputLabel value="Klient" />
-                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" emptyMessage="Nie znaleziono wyników"
-                                                converter="clientConverter" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
-                                <hr/>
-                                <h:outputLabel value="Produkt" />
-                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" emptyMessage="Nie znaleziono wyników"
-                                                converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
-                                <hr/>
-                                <p:outputLabel value="Ilość" />
-                                <p:inputText id="spinner1" value="#{homeView.newOrder.count}" />
-                                <hr/>
-                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrderAddingTab()"/>
-                                <p:remoteCommand name="updateOrderAddingTab"  />
-                            </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Dodaj produkt" id="products_tab">
-                            <h:panelGrid columns="1">
-                                <h:outputLabel value="Dodaj produkt " />
-                                <p:inputText id="add_product_input" value="#{homeView.newProduct.name}" />
-                                <hr/>
-                                <p:commandButton id="add_product_button" value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" tabindex="0"/>
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Dodaj klienta">
-                            <h:panelGrid columns="1" >
-                                <h:outputLabel value="Nazwa" />
-                                <p:inputText value="#{homeView.newClient.name}" />
-                                <hr/>
-                                <h:outputLabel value="Adres " />
-                                <p:inputText value="#{homeView.newClient.location}" />
-                                <hr/>
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" tabindex="0"/>
-                            </h:panelGrid>
-                        </p:tab>
-                        <p:tab title="Operacje">
-                            <h:panelGrid columns="2" cellpadding="2" cellspacing="0" style="padding: 0; margin: 0 auto" >
-                                <p:commandButton class="menu_button" value="Przywró? stan" actionListener="#{homeView.restore()}"  tabindex="0"/>
-                                <p:commandButton class="menu_button" value="Zapisz stan" actionListener="#{homeView.saveState()}" tabindex="0"/>                                
+                        <p:tab closable="true" title="Dodaj klienta">
 
-                                <p:commandButton class="menu_button" value="Usu? zamówienia" actionListener="#{homeView.clearOrders()}" oncomplete="window.location.reload()" tabindex="0"/>
-                                <p:commandButton class="menu_button" value="Usu? wszystko" actionListener="#{homeView.clearAll()}" oncomplete="window.location.reload()" tabindex="0"/>
-                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab closable="true" title="Dodaj produkt">
+
+                        </p:tab>
+                        <p:tab closable="true" title="Opcje">
+
                         </p:tab>
                     </p:accordionPanel>
-                </p:layoutUnit>
-                <p:layoutUnit position="center">
-                    <p:dataTable value="#{homeView.orders}" var="order" id="ordersTable">
-                        <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
-                            <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
-                        </p:column>
-                        <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
-                            <h:outputLabel value="#{order.client.name}"/>
-                        </p:column>
-                        <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
-                            <h:outputLabel value="#{order.count}" />
-                        </p:column>
-                        <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
-                            <h:outputLabel value="#{order.product.name}" />
-                        </p:column>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" collapsible="true">
+                <h:form>
+                    <p:dataTable value="#{homeView.orders}" var="order" selectionMode="single" selection="#{homeView.selectedOrder}">
+
                     </p:dataTable>
-                    <p:remoteCommand name="updateOrderTable" update="ordersTable" />
-                </p:layoutUnit>
-            </p:layout>
-            <script>
-                function toggleWestLayoutUnit() {
-                    PrimeFaces.widgets.data_layout.toggle('west');
-                }
-            </script>
-        </h:form>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
 </html>
 

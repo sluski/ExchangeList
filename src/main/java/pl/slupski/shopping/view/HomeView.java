@@ -23,7 +23,8 @@ public class HomeView {
     private Client newClient;
     private Order newOrder;
     private Product newProduct;
-    
+    private Order selectedOrder;
+
     public HomeView() {
         newProduct = new Product();
         newClient = new Client();
@@ -40,7 +41,7 @@ public class HomeView {
         }
         PrimeFaces.current().dialog().showMessageDynamic(message);
     }
-    
+
     public void clearOrders() {
         DataCache.clearOrders();
     }
@@ -65,7 +66,7 @@ public class HomeView {
     public void clearAll() {
         DataCache.clearState();
     }
-    
+
     public void onNewProductAdd() {
         DataCache.addToProducts(newProduct);
         System.out.println("Produt added: " + newProduct.getName());
@@ -121,6 +122,13 @@ public class HomeView {
     public Client getNewClient() {
         return newClient;
     }
-    
+
+    public Order getSelectedOrder() {
+        return selectedOrder;
+    }
+
+    public void setSelectedOrder(Order selectedOrder) {
+        this.selectedOrder = selectedOrder;
+    }
 
 }
