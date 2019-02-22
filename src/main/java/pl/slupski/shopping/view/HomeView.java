@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
@@ -18,7 +18,7 @@ import pl.slupski.shopping.service.pojo.Product;
  * @author sluski
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class HomeView {
 
     private Client newClient;
@@ -62,14 +62,6 @@ public class HomeView {
     public void onNewOrderAdd() {
         DataCache.addToOrders(newOrder);
         newOrder = new Order();
-        StringBuilder strBuilder = new StringBuilder();
-        strBuilder.append("Klient: ");
-        strBuilder.append(newOrder.getClient().getName());
-        strBuilder.append("\n Produkt: ");
-        strBuilder.append(newOrder.getProduct().getName());
-        strBuilder.append("\n Ilość: ");
-        strBuilder.append(newOrder.getCount());
-        growlMessage("Zamównienie zostało dodane", strBuilder.toString());
     }
 
     public void clearAll() {

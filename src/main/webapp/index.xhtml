@@ -64,8 +64,8 @@
                 </h:form>
             </p:layoutUnit>
             <p:layoutUnit position="center" collapsible="true">
-                <h:form id="data_form" style="height: 100% !important">
-                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" selectionMode="single" scrollable="true" virtualScroll="true"
+                <h:form id="data_form">
+                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" scrollable="true" editable="true"
                                  selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}">
                         <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
                             <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
@@ -74,11 +74,32 @@
                             <h:outputLabel value="#{order.client.name}"/>
                         </p:column>
                         <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
-                            <h:outputLabel value="#{order.count}" />
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputLabel value="#{order.count}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{order.count}" />
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
                         <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
-                            <h:outputLabel value="#{order.product.name}" />
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputLabel value="#{order.product.name}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu value="#{order.product}">
+                                        <f:selectItems value="#{homeView.products}" var="selectOneProduct" itemLabel="#{selectOneProduct.name}" itemValue="#{selectOneProduct}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
+
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                        </p:column>
+
                         <f:facet name="footer">
                             <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj"  />
                             <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
