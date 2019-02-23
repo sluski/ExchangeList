@@ -39,7 +39,7 @@
                                                 converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
                                 <p:outputLabel value="Ilość" />
                                 <p:inputText id="ordersCountText" value="#{homeView.newOrder.count}" />
-                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel()"/>
+                                <p:commandButton id="button_add_order" class="newThingButton" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj klienta">
@@ -47,7 +47,7 @@
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newClient.name}" />
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
+                                <p:commandButton value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
@@ -55,7 +55,7 @@
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText value="#{homeView.newProduct.name}" />
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
+                                <p:commandButton value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Opcje">
