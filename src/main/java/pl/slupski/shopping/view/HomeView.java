@@ -9,6 +9,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
+import pl.slupski.shopping.service.implementation.LoggerService;
+import pl.slupski.shopping.service.interfaces.ILoggerService;
 import pl.slupski.shopping.service.pojo.Client;
 import pl.slupski.shopping.service.pojo.Order;
 import pl.slupski.shopping.service.pojo.Product;
@@ -25,8 +27,13 @@ public class HomeView {
     private Order newOrder;
     private Product newProduct;
     private Order selectedOrder;
+    private Client lastClient;
+
+    private final ILoggerService logger;
 
     public HomeView() {
+        logger = new LoggerService();
+
         newProduct = new Product();
         newClient = new Client();
         newOrder = new Order();
@@ -60,8 +67,14 @@ public class HomeView {
     }
 
     public void onNewOrderAdd() {
+        if (newOrder.getClient() == null) {
+            newOrder.setClient(lastClient);
+        }
         DataCache.addToOrders(newOrder);
+        logger.saveToLogs(Order.class, newOrder);
+        lastClient = newOrder.getClient();
         newOrder = new Order();
+        newOrder.setClient(lastClient);
     }
 
     public void clearAll() {
@@ -70,6 +83,7 @@ public class HomeView {
 
     public void onNewProductAdd() {
         DataCache.addToProducts(newProduct);
+        logger.saveToLogs(Product.class, newProduct);
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("Produkt o nazwie ");
         strBuilder.append(newProduct.getName());
@@ -80,6 +94,7 @@ public class HomeView {
 
     public void onNewClientAdd() {
         DataCache.addToClients(newClient);
+        logger.saveToLogs(Client.class, newClient);
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("Klient o nazwie ");
         strBuilder.append(newProduct.getName());
@@ -110,7 +125,8 @@ public class HomeView {
 
     private void growlMessage(String header, String message) {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(header, message));
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, header, message));
+//        context.addMessage(null, new FacesMessage(header, message));
     }
 
     public List<Product> getProducts() {

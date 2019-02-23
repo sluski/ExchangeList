@@ -5,7 +5,13 @@ function onLoadPage() {
     }
 }
 
+window.addEventListener("*", (event) => {
+    console.log(event);
+});
+
 function cleanNewOrderValues() {
     $('#operations_form\\:operations_accordion_panel\\:resetNewOrderButton').click();
 }
+
+
 
