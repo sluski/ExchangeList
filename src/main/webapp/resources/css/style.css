@@ -1,0 +1,23 @@
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.invisibleButton {
+    visibility: hidden;
+}
+
+.menu_button {
+    width: 100%;
+    text-align: center;
+    margin: 2px;
+}
+
+

@@ -6,8 +6,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import pl.slupski.shopping.service.cache.DataCache;
+import pl.slupski.shopping.service.implementation.LoggerService;
+import pl.slupski.shopping.service.interfaces.ILoggerService;
 import pl.slupski.shopping.service.pojo.Client;
 import pl.slupski.shopping.service.pojo.Order;
 import pl.slupski.shopping.service.pojo.Product;
@@ -23,8 +26,14 @@ public class HomeView {
     private Client newClient;
     private Order newOrder;
     private Product newProduct;
+    private Order selectedOrder;
+    private Client lastClient;
+
+    private final ILoggerService logger;
 
     public HomeView() {
+        logger = new LoggerService();
+
         newProduct = new Product();
         newClient = new Client();
         newOrder = new Order();
@@ -41,6 +50,10 @@ public class HomeView {
         PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 
+    public void clearOrders() {
+        DataCache.clearOrders();
+    }
+
     public void restore() {
         FacesMessage message;
         try {
@@ -54,19 +67,39 @@ public class HomeView {
     }
 
     public void onNewOrderAdd() {
+        if (newOrder.getClient() == null) {
+            newOrder.setClient(lastClient);
+        }
         DataCache.addToOrders(newOrder);
+        logger.saveToLogs(Order.class, newOrder);
+        lastClient = newOrder.getClient();
         newOrder = new Order();
+        newOrder.setClient(lastClient);
+    }
+
+    public void clearAll() {
+        DataCache.clearState();
     }
 
     public void onNewProductAdd() {
         DataCache.addToProducts(newProduct);
-        System.out.println("Produt added: " + newProduct.getName());
+        logger.saveToLogs(Product.class, newProduct);
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Produkt o nazwie ");
+        strBuilder.append(newProduct.getName());
+        strBuilder.append(" został dodany");
+        growlMessage("Produkt został dodany", strBuilder.toString());
         newProduct = new Product();
     }
 
     public void onNewClientAdd() {
         DataCache.addToClients(newClient);
-        System.out.println("Client added: " + newClient.getName());
+        logger.saveToLogs(Client.class, newClient);
+        StringBuilder strBuilder = new StringBuilder();
+        strBuilder.append("Klient o nazwie ");
+        strBuilder.append(newProduct.getName());
+        strBuilder.append(" został dodany");
+        growlMessage("Klient został dodany", strBuilder.toString());
         newClient = new Client();
     }
 
@@ -88,6 +121,12 @@ public class HomeView {
             }
         }
         return result;
+    }
+
+    private void growlMessage(String header, String message) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, header, message));
+//        context.addMessage(null, new FacesMessage(header, message));
     }
 
     public List<Product> getProducts() {
@@ -112,6 +151,14 @@ public class HomeView {
 
     public Client getNewClient() {
         return newClient;
+    }
+
+    public Order getSelectedOrder() {
+        return selectedOrder;
+    }
+
+    public void setSelectedOrder(Order selectedOrder) {
+        this.selectedOrder = selectedOrder;
     }
 
 }

@@ -9,15 +9,16 @@ public class Order {
 
     private Client client;
     private Product product;
-    private int count;
+    private String count;
+    private boolean bought;
 
     public Order() {
         client = new Client();
         product = new Product();
-        count = 0;
+        count = "";
     }
 
-    public Order(Client client, Product product, int count) {
+    public Order(Client client, Product product, String count, boolean bought) {
         this.client = client;
         this.product = product;
     }
@@ -38,14 +39,19 @@ public class Order {
         this.product = product;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
-    
-    
 
+    public boolean isBought() {
+        return bought;
+    }
+
+    public void setBought(boolean bought) {
+        this.bought = bought;
+    }
 }

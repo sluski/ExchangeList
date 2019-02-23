@@ -61,11 +61,13 @@ public class DataCache {
     }
 
     public static void clearState() {
-        initIfIsNot();
+        orders = new ArrayList();
+        clients = new ArrayList();
+        products = new ArrayList();
     }
 
     public static void clearOrders() {
-        initIfIsNot();
+        orders = new ArrayList();
     }
 
     public static void addToOrders(Order order) {

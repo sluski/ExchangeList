@@ -6,136 +6,93 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Exchange Planner</title>
+        <meta charset="UTF-8" />
     </h:head>
     <h:body>
-        <style>
-            html {
-                font-size: 14px;
-            }
-
-            .menu_section {
-                margin: 5px 5px;
-
-            }
-        </style>
-        <h:form id="main_form">
-            <p:layout fullPage="true" widgetVar="main_layout">
-                <p:messages autoUpdate="true" showDetail="true" closable="true" />
-                <p:layoutUnit position="west" resizable="false" size="300">
-
-                    <div class="p-grid p-dir-col manu_secition" >
-                        <p:outputPanel id="left_menu" autoUpdate="false">
-                            <div class="p-col">
-                                <h3>
-                                    <h:outputLabel value="Dodaj zamówienie" />
-                                </h3>
-                            </div>
-                            <div class="p-col">
-                                <h:outputLabel value="Klient" />
-                            </div>
-
-                            <div class="p-col">
-                                <p:autoComplete id="autocomplete1" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" converter="clientConverter"
-                                                var="client" itemLabel="#{client.name}" itemValue="#{client.name}">
-                                </p:autoComplete>
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Produkt " />
-                            </div>
-                            <div class="p-col">
-                                <p:autoComplete id="autocomplete2" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" converter="productConverter"
-                                                var="product" itemLabel="#{product.name}" itemValue="#{product.name}" >
-                                </p:autoComplete>
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Ilość" />
-                            </div>
-                            <div class="p-col">
-                                <p:spinner id="spinner1" value="#{homeView.newOrder.count}" />
-                            </div>
-                            <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="window.location.reload(true)"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
-
-                    <hr/>
-
-                    <div class="p-grid p-dir-col menu_section" >
-                        <p:outputPanel autoUpdate="true">
-                            <div class="p-col">
-                                <h3>
-                                    <h:outputLabel value="Dodaj klienta" />
-                                </h3>
-                            </div>
-                            <div class="p-col">
-                                <h:outputLabel value="Nazwa" />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newClient.name}" />
-                            </div>
-
-                            <div class="p-col">
-                                <h:outputLabel value="Adres " />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newClient.location}" />
-                            </div>
-                            <div class="p-col" style="margin: 15px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="PF('main_form')"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
-
-                    <hr/>
-
-                    <div class="p-grid p-dir-col menu_secition">
-                        <p:outputPanel autoUpdate="true">
-                            <div class="p-col">
-                                <h3>
-                                    <h:outputLabel value="Dodaj produkt " />
-                                </h3>
-                            </div>
-                            <div class="p-col">
-                                <h:outputLabel value="Nazwa" />
-                            </div>
-                            <div class="p-col">
-                                <p:inputText value="#{homeView.newProduct.name}" />
-                            </div>
-                            <div class="p-col" style="margin: 8px 0">
-                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="PF('main_form')"/>
-                            </div>
-                        </p:outputPanel>
-                    </div>
-
-                    <hr/>
-                    <p:outputPanel>
-                        <p:commandButton value="Zapisz stan" actionListener="#{homeView.saveState()}" />
-                        <p:commandButton value="Przywróć stan" actionListener="#{homeView.restore()}" />
-                    </p:outputPanel>
-
-                </p:layoutUnit>
-
-                <p:layoutUnit position="center">
-                    <p:outputPanel autoUpdate="true">
-                        <p:dataTable value="#{homeView.orders}" var="order">
-                            <p:column headerText="Klient">
-                                <h:outputLabel value="#{order.client.name}" />
-                            </p:column>
-                            <p:column headerText="Ilość">
-                                <h:outputLabel value="#{order.count}" />
-                            </p:column>
-                            <p:column headerText="Produkt">
-                                <h:outputLabel value="#{order.product.name}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:outputPanel>
-                </p:layoutUnit>
-            </p:layout>
-
+        <h:form>
+            <p:remoteCommand name="updateOrdersTable" update="#{p:component('ordersTable')}" />
+            <p:remoteCommand name="updatenewOrderPanel" update="#{p:component('newOrderPanel')}" />
+            <p:remoteCommand name="updateNewClientPanel" update="#{p:component('newClientPanel')}" />
+            <p:remoteCommand name="updateNewProductPanel" update="#{p:component('newProductPanel')}" />
         </h:form>
+        <h:outputStylesheet library="css" name="style.css" />
+        <h:outputScript library="js" name="script.js" />
+        <!--        <p:growl id="growl" showDetail="true" sticky="false" globalOnly="true" life="3000">
+                    <p:autoUpdate />
+                </p:growl>-->
+        <p:confirmDialog widgetVar="confirmeDeleteAll" severity="alert" global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Nie" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-fw fa-close" />
+            <p:commandButton value="Tak" type="button" styleClass="ui-confirmdialog-yes"  icon="fa fa-fw fa-check" />
+        </p:confirmDialog>
+
+        <p:layout fullPage="true">
+            <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
+                <h:form id="operations_form">
+                    <p:accordionPanel id="operations_accordion_panel" multiple="true">
+                        <p:tab closable="true" title="Dodaj zamówienie">
+                            <p:outputPanel id="newOrderPanel" autoUpdate="false">
+                                <p:outputLabel value="Klient" />
+                                <p:autoComplete id="ordersClientAutocomplete" value="#{homeView.newOrder.client}" completeMethod="#{homeView.completeClient}" emptyMessage="Nie znaleziono wyników"
+                                                converter="clientConverter" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
+                                <p:outputLabel value="Produkt" />
+                                <p:autoComplete id="ordersProductAutocomplete" value="#{homeView.newOrder.product}" completeMethod="#{homeView.completeProduct}" emptyMessage="Nie znaleziono wyników"
+                                                converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
+                                <p:outputLabel value="Ilość" />
+                                <p:inputText id="ordersCountText" value="#{homeView.newOrder.count}" />
+                                <p:commandButton id="button_add_order" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel()"/>
+                            </p:outputPanel>
+                        </p:tab>
+                        <p:tab closable="true" title="Dodaj klienta">
+                            <p:outputPanel id="newClientPanel">
+                                <p:autoUpdate />
+                                <p:outputLabel value="Nazwa" />
+                                <p:inputText value="#{homeView.newClient.name}" />
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
+                            </p:outputPanel>
+                        </p:tab>
+                        <p:tab closable="true" title="Dodaj produkt">
+                            <p:outputPanel id="newProductPanel">
+                                <p:autoUpdate />
+                                <p:outputLabel value="Nazwa" />
+                                <p:inputText value="#{homeView.newProduct.name}" />
+                                <p:commandButton value="Dodaj" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
+                            </p:outputPanel>
+                        </p:tab>
+                        <p:tab closable="true" title="Opcje">
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-reply-all" value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="window.location.reload()" />
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-save" value="Zapisz stan" actionListener="#{homeView.saveState()}" oncomplete="window.location.reload()" />
+                        </p:tab>
+                    </p:accordionPanel>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" collapsible="true">
+                <h:form id="data_form">
+                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" scrollable="true"
+                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}">
+                        <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
+                            <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
+                        </p:column>
+                        <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
+                            <h:outputLabel value="#{order.client.name}"/>
+                        </p:column>
+                        <p:column headerText="Ilość" style="width: 80px; text-align: center" sortBy="#{order.count}">
+                            <h:outputLabel value="#{order.count}" />
+                        </p:column>
+                        <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
+                            <h:outputLabel value="#{order.product.name}" />
+                        </p:column>
+
+                        <f:facet name="footer">
+                            <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj"  />
+                            <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
+                            <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()" >
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
     </h:body>
 </html>
 
