@@ -27,7 +27,7 @@
 
         <p:layout fullPage="true">
             <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
-                <h:form id="operations_form">
+                <h:form id="operations_form" >
                     <p:accordionPanel id="operations_accordion_panel" multiple="true">
                         <p:tab closable="true" title="Dodaj zamówienie">
                             <p:outputPanel id="newOrderPanel" autoUpdate="false">
@@ -46,16 +46,16 @@
                             <p:outputPanel id="newClientPanel">
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
-                                <p:inputText value="#{homeView.newClient.name}" />
-                                <p:commandButton value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
+                                <p:inputText id="newClientNameInput" value="#{homeView.newClient.name}" onkeydown="onClientAddKeyDown(event)"/>
+                                <p:commandButton id="newClientAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
                             <p:outputPanel id="newProductPanel">
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
-                                <p:inputText value="#{homeView.newProduct.name}" />
-                                <p:commandButton value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
+                                <p:inputText id="newProductNameInput" value="#{homeView.newProduct.name}" onkeydown="onProductAddKeyDown(event)"/>
+                                <p:commandButton id="newProductAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Opcje">
