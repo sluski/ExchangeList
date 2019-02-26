@@ -29,5 +29,6 @@ function onClientAddKeyDown(e) {
     }
 }
 
-
-
+function focusOnNewOrderProduct() {
+    setTimeout($('#operations_form\\:operations_accordion_panel\\:ordersProductAutocomplete_input')[0].focus(), 100);
+}

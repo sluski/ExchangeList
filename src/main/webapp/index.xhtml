@@ -39,7 +39,8 @@
                                                 converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
                                 <p:outputLabel value="Ilość" />
                                 <p:inputText id="ordersCountText" value="#{homeView.newOrder.count}" />
-                                <p:commandButton id="button_add_order" class="newThingButton" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel()"/>
+                                <p:commandButton id="button_add_order" class="newThingButton" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel(); focusOnNewOrderProduct()">
+                                </p:commandButton>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj klienta">
