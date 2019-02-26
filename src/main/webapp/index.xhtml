@@ -68,10 +68,11 @@
             </p:layoutUnit>
             <p:layoutUnit position="center" collapsible="true">
                 <h:form id="data_form">
-                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" scrollable="true"
-                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}">
+                    <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" scrollable="true" rowIndexVar="indexVar"
+                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}" selectionMode="single">
                         <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
-                            <p:selectBooleanCheckbox value="#{order.bought}" style="margin: 0 auto" />
+                            <p:selectBooleanCheckbox id="bought" value="#{order.bought}" style="margin: 0 auto" onchange="updateDefinedOrderBoughtCheckbox()"/>
+                            <p:remoteCommand name="updateDefinedOrderBoughtCheckbox" update="data_form:ordersTable:#{indexVar}:bought" />
                         </p:column>
                         <p:column headerText="Klient" filterBy="#{order.client.name}" filterMatchMode="contains" sortBy="#{order.client.name}">
                             <h:outputLabel value="#{order.client.name}"/>
@@ -84,7 +85,7 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj"  />
+                            <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj" actionListener="#{homeView.onOrderEdit()}"/>
                             <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
                             <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()" >
                                 <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?"/>

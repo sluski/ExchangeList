@@ -33,7 +33,6 @@ public class HomeView {
 
     public HomeView() {
         logger = new LoggerService();
-
         newProduct = new Product();
         newClient = new Client();
         newOrder = new Order();
