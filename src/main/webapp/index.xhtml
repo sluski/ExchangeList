@@ -22,9 +22,8 @@
                     <p:autoUpdate />
                     <p:repeat value="#{homeView.findOrdersForGenerateListClientSelected()}" var="order" varStatus="statusVar">
                         <p:outputPanel id="ordersListElementPanel">
-                            <p:outputLabel value="#{order.product.name} #{order.count}" />
-                            <p:selectBooleanCheckbox style="float: right;" onchange="onOrderListChange(#{statusVar.index})">
-                            </p:selectBooleanCheckbox>
+                            <p:outputLabel id="orderListElementLabel" value="#{order.product.name} #{order.count}" />
+                            <p:selectBooleanCheckbox class="indivcheckbox" style="float: right;" onchange="onOrderListChange(#{statusVar.index})" />
                         </p:outputPanel>
                         <hr/>
                     </p:repeat>
@@ -44,7 +43,7 @@
         <p:layout fullPage="true">
             <p:layoutUnit position="west" collapsible="true" size="300" header="Operacje" closable="true">
                 <h:form id="operations_form" >
-                    <p:accordionPanel id="operations_accordion_panel" multiple="true">
+                    <p:accordionPanel id="operations_accordion_panel" multiple="true" activeIndex="4">
                         <p:tab closable="true" title="Dodaj zamówienie">
                             <p:outputPanel id="newOrderPanel" autoUpdate="false">
                                 <p:outputLabel value="Klient" />
@@ -79,10 +78,12 @@
                             <p:outputPanel id="generateListPanel">
                                 <p:autoUpdate />
                                 <p:outputLabel value="Klient" style="width: 100% !important"/>
+                                <br/>
                                 <p:selectOneMenu id="generateListClientSelectOneMenu" value="#{homeView.generateListClientSelected}" autoWidth="true" converter="clientConverter">
                                     <f:selectItem itemLabel="Wybierz" itemValue="#{null}" />
                                     <f:selectItems value="#{homeView.clients}" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
                                 </p:selectOneMenu>
+                                <br/>
                                 <p:commandButton id="generateListButton" value="Generuj" class="newThingButton" onclick="PF('ordersListForClient').show()" />
                             </p:outputPanel>
                         </p:tab>

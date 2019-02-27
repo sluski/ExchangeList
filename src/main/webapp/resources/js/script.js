@@ -36,9 +36,9 @@ function focusOnNewOrderProduct() {
 
 function onOrderListChange(index) {
     if (PrimeFaces.widgets['widget_ordersListDialog_j_idt12_' + index + '_j_idt50'].input.is(':checked')) {
-        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:ordersListElementPanel')[0].style = "color: red";
+        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:orderListElementLabel').addClass("strikeout");
     } else {
-        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:ordersListElementPanel')[0].style = "color: black";
+        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:orderListElementLabel').removeClass("strikeout");
     }
 
 
