@@ -22,4 +22,16 @@ public class Client {
         this.location = location;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Client)) {
+            return false;
+        }
+        Client c = (Client) o;
+        if (c.getName().equals(this.name) && c.getLocation().equals(this.location)) {
+            return true;
+        }
+        return false;
+    }
+
 }

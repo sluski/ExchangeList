@@ -24,4 +24,20 @@ body {
     margin-top: 6px;
 }
 
+#ordersListForClient {
+    font-size: 1.2em;
+}
+
+.ordersListElement {
+    width: 80%;
+    margin: 0 auto;
+    padding: 5px 4px;
+    border-bottom: 1px solid grey;
+}
+
+.ordersListElement:hover {
+    background-color: #dbdbdb;
+}
+
+
 

@@ -8,13 +8,29 @@
         <title>Exchange Planner</title>
         <meta charset="UTF-8" />
     </h:head>
-    <h:body>
+    <h:body onload="onLoadPage()">
         <h:form>
             <p:remoteCommand name="updateOrdersTable" update="#{p:component('ordersTable')}" />
-            <p:remoteCommand name="updatenewOrderPanel" update="#{p:component('newOrderPanel')}" />
+            <p:remoteCommand name="updateNewOrderPanel" update="#{p:component('newOrderPanel')}" />
             <p:remoteCommand name="updateNewClientPanel" update="#{p:component('newClientPanel')}" />
             <p:remoteCommand name="updateNewProductPanel" update="#{p:component('newProductPanel')}" />
+            <p:remoteCommand name="updateOrdersListForClient" update="#{p:component('ordersListForClient')}" />
         </h:form>
+        <p:dialog id="ordersListForClient" widgetVar="ordersListForClient" width="380" closable="true" header="Edycja zamówienia" position="top" resizable="true">
+            <h:form id="ordersListDialog">
+                <p:outputPanel id="ordersListForClientPanel">
+                    <p:autoUpdate />
+                    <p:repeat value="#{homeView.findOrdersForGenerateListClientSelected()}" var="order" varStatus="statusVar">
+                        <p:outputPanel id="ordersListElementPanel">
+                            <p:outputLabel value="#{order.product.name} #{order.count}" />
+                            <p:selectBooleanCheckbox style="float: right;" onchange="onOrderListChange(#{statusVar.index})">
+                            </p:selectBooleanCheckbox>
+                        </p:outputPanel>
+                        <hr/>
+                    </p:repeat>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
         <h:outputStylesheet library="css" name="style.css" />
         <h:outputScript library="js" name="script.js" />
         <!--        <p:growl id="growl" showDetail="true" sticky="false" globalOnly="true" life="3000">
@@ -39,7 +55,7 @@
                                                 converter="productConverter" var="product" itemLabel="#{product.name}" itemValue="#{product.name}" />
                                 <p:outputLabel value="Ilość" />
                                 <p:inputText id="ordersCountText" value="#{homeView.newOrder.count}" />
-                                <p:commandButton id="button_add_order" class="newThingButton" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updatenewOrderPanel(); focusOnNewOrderProduct()">
+                                <p:commandButton id="button_add_order" class="newThingButton" value="Dodaj" actionListener="#{homeView.onNewOrderAdd()}" oncomplete="updateOrdersTable(); updateNewOrderPanel(); focusOnNewOrderProduct()">
                                 </p:commandButton>
                             </p:outputPanel>
                         </p:tab>
@@ -48,7 +64,7 @@
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText id="newClientNameInput" value="#{homeView.newClient.name}" onkeydown="onClientAddKeyDown(event)"/>
-                                <p:commandButton id="newClientAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updatenewOrderPanel(); updateNewClientPanel()"/>
+                                <p:commandButton id="newClientAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewClientAdd()}" oncomplete="updateNewOrderPanel(); updateNewClientPanel()"/>
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Dodaj produkt">
@@ -56,12 +72,32 @@
                                 <p:autoUpdate />
                                 <p:outputLabel value="Nazwa" />
                                 <p:inputText id="newProductNameInput" value="#{homeView.newProduct.name}" onkeydown="onProductAddKeyDown(event)"/>
-                                <p:commandButton id="newProductAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updatenewOrderPanel(); updateNewProductPanel()"/>
+                                <p:commandButton id="newProductAddButton" value="Dodaj" class="newThingButton" actionListener="#{homeView.onNewProductAdd()}" oncomplete="updateNewOrderPanel(); updateNewProductPanel()"/>
+                            </p:outputPanel>
+                        </p:tab>
+                        <p:tab closable="true" title="Generuj liste zamównień">
+                            <p:outputPanel id="generateListPanel">
+                                <p:autoUpdate />
+                                <p:outputLabel value="Klient" style="width: 100% !important"/>
+                                <p:selectOneMenu id="generateListClientSelectOneMenu" value="#{homeView.generateListClientSelected}" autoWidth="true" converter="clientConverter">
+                                    <f:selectItem itemLabel="Wybierz" itemValue="#{null}" />
+                                    <f:selectItems value="#{homeView.clients}" var="client" itemLabel="#{client.name}" itemValue="#{client.name}" />
+                                </p:selectOneMenu>
+                                <p:commandButton id="generateListButton" value="Generuj" class="newThingButton" onclick="PF('ordersListForClient').show()" />
                             </p:outputPanel>
                         </p:tab>
                         <p:tab closable="true" title="Opcje">
-                            <p:commandButton class="menu_button" icon="fa fa-fw fa-reply-all" value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="window.location.reload()" />
-                            <p:commandButton class="menu_button" icon="fa fa-fw fa-save" value="Zapisz stan" actionListener="#{homeView.saveState()}" oncomplete="window.location.reload()" />
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-reply-all" value="Przywróć stan" actionListener="#{homeView.restore()}" oncomplete="window.location.reload()">
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz przywrócić stan?"/>
+                            </p:commandButton>
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-save" value="Zapisz stan" actionListener="#{homeView.saveState()}" oncomplete="window.location.reload()">
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz zapisać stan?"/>
+                            </p:commandButton>
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-edit" value="Edytuj" />
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-remove" value="Usuń"  />
+                            <p:commandButton class="menu_button" icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()" >
+                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?"/>
+                            </p:commandButton>
                         </p:tab>
                     </p:accordionPanel>
                 </h:form>
@@ -69,7 +105,7 @@
             <p:layoutUnit position="center" collapsible="true">
                 <h:form id="data_form">
                     <p:dataTable id="ordersTable" widgetVar="ordersTable" value="#{homeView.orders}" var="order" scrollable="true" rowIndexVar="indexVar"
-                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}" selectionMode="single">
+                                 selection="#{homeView.selectedOrder}" rowKey="#{order.client.name} + #{order.client.name} + #{order.count}" >
                         <p:column style="width: 30px; text-align: center" sortBy="#{order.bought}">
                             <p:selectBooleanCheckbox id="bought" value="#{order.bought}" style="margin: 0 auto" onchange="updateDefinedOrderBoughtCheckbox()"/>
                             <p:remoteCommand name="updateDefinedOrderBoughtCheckbox" update="data_form:ordersTable:#{indexVar}:bought" />
@@ -83,14 +119,6 @@
                         <p:column headerText="Produkt" filterBy="#{order.product.name}" filterMatchMode="contains" sortBy="#{order.product.name}">
                             <h:outputLabel value="#{order.product.name}" />
                         </p:column>
-
-                        <f:facet name="footer">
-                            <p:commandButton icon="fa fa-fw fa-edit" value="Edytuj" actionListener="#{homeView.onOrderEdit()}"/>
-                            <p:commandButton icon="fa fa-fw fa-remove" value="Usuń"  />
-                            <p:commandButton icon="fa fa-fw fa-undo" value="Usuń wszystko" action="#{homeView.clearOrders()}" oncomplete="updateOrdersTable()" >
-                                <p:confirm header="Usuwanie zamówień" message="Czy na pewno chcesz usunąć wszystkie zamówienia?"/>
-                            </p:commandButton>
-                        </f:facet>
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>

@@ -45,14 +45,24 @@ public class DataCache {
                     return product;
                 }
             }
-        } 
+        }
         return null;
     }
 
+    public static List<Order> findOrdersForClient(Client client) {
+        List<Order> result = new ArrayList();
+        orders.forEach(order -> {
+            if (order.getClient().equals(client)) {
+                result.add(order);
+            }
+        });
+        return result;
+    }
+
     public static Client findClientByName(String name) {
-        if(clients != null) {
-            for(Client client : clients) {
-                if(client.getName().equals(name)) {
+        if (clients != null) {
+            for (Client client : clients) {
+                if (client.getName().equals(name)) {
                     return client;
                 }
             }

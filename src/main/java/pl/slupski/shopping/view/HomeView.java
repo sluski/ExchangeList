@@ -28,6 +28,7 @@ public class HomeView {
     private Product newProduct;
     private Order selectedOrder;
     private Client lastClient;
+    private Client generateListClientSelected;
 
     private final ILoggerService logger;
 
@@ -51,6 +52,13 @@ public class HomeView {
 
     public void clearOrders() {
         DataCache.clearOrders();
+    }
+
+    public List<Order> findOrdersForGenerateListClientSelected() {
+        if (generateListClientSelected != null) {
+            return DataCache.findOrdersForClient(generateListClientSelected);
+        }
+        return null;
     }
 
     public void restore() {
@@ -158,6 +166,14 @@ public class HomeView {
 
     public void setSelectedOrder(Order selectedOrder) {
         this.selectedOrder = selectedOrder;
+    }
+
+    public Client getGenerateListClientSelected() {
+        return generateListClientSelected;
+    }
+
+    public void setGenerateListClientSelected(Client generateListClientSelected) {
+        this.generateListClientSelected = generateListClientSelected;
     }
 
 }
