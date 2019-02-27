@@ -20,10 +20,10 @@
             <h:form id="ordersListDialog">
                 <p:outputPanel id="ordersListForClientPanel">
                     <p:autoUpdate />
-                    <p:repeat value="#{homeView.findOrdersForGenerateListClientSelected()}" var="order" varStatus="statusVar">
+                    <p:repeat id="orderListRepeat" value="#{homeView.findOrdersForGenerateListClientSelected()}" var="order" varStatus="statusVar">
                         <p:outputPanel id="ordersListElementPanel">
                             <p:outputLabel id="orderListElementLabel" value="#{order.product.name} #{order.count}" />
-                            <p:selectBooleanCheckbox class="indivcheckbox" style="float: right;" onchange="onOrderListChange(#{statusVar.index})" />
+                            <p:selectBooleanCheckbox id="orderListElementCheckbox" class="indivcheckbox" style="float: right;" onchange="onOrderListChange(#{statusVar.index})" />
                         </p:outputPanel>
                         <hr/>
                     </p:repeat>

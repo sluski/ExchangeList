@@ -35,10 +35,12 @@ function focusOnNewOrderProduct() {
 }
 
 function onOrderListChange(index) {
-    if (PrimeFaces.widgets['widget_ordersListDialog_j_idt12_' + index + '_j_idt50'].input.is(':checked')) {
-        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:orderListElementLabel').addClass("strikeout");
+    console.log("Index", index);
+    console.log('widget_ordersListDialog_orderListRepeat_' + index + '_orderListElementCheckbox');
+    if (PrimeFaces.widgets['widget_ordersListDialog_orderListRepeat_' + index + '_orderListElementCheckbox'].input.is(':checked')) {
+        $('#ordersListDialog\\:orderListRepeat\\:' + index + '\\:orderListElementLabel').addClass("strikeout");
     } else {
-        $('#ordersListDialog\\:j_idt12\\:' + index + '\\:orderListElementLabel').removeClass("strikeout");
+        $('#ordersListDialog\\:orderListRepeat\\:' + index + '\\:orderListElementLabel').removeClass("strikeout");
     }
 
 
